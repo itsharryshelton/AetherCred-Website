@@ -118,7 +118,7 @@
             <h2 class="text-2xl font-bold text-white mb-4">Step 1: Get the Script</h2>
             <p class="text-gray-300 mb-4">The AetherCred script is available on GitHub. You can download it directly or clone the repository.</p>
             <pre><code>git clone https://github.com/itsharryshelton/AetherCred.git</code></pre>
-            <p class="text-gray-300 mt-4">Alternatively, you can navigate to the <a href="https://github.com/itsharryshelton/AetherCred/releases" target="_blank" class="text-blue-400 hover:underline">releases page</a> and download the latest compiled version or the raw PowerShell script.</p>
+            <p class="text-gray-300 mt-4">Alternatively, you can navigate to the <a href="https://github.com/itsharryshelton/AetherCred/releases" target="_blank" class="text-blue-400 hover:underline">releases page</a> and download the latest version.</p>
         </section>
 
         <section class="mb-16 guide-section">
@@ -142,18 +142,19 @@
         <section class="mb-16 guide-section">
             <h2 class="text-2xl font-bold text-white mb-4">Step 3: Run the Script</h2>
             <p class="text-gray-300 mb-4">Once you have the script and the necessary permissions, you can execute it from PowerShell.</p>
-            <pre><code>.\AetherCred.ps1</code></pre>
+            <pre><code>.\AetherCred-Core.ps1</code></pre>
             <p class="text-gray-300 mt-4">The script will prompt you to authenticate. Follow the on-screen instructions to complete the authentication process.</p>
             <p class="text-gray-300 mt-4">Upon successful execution, AetherCred will generate an HTML report in the same directory as the script, providing a detailed overview of your Entra ID security posture.</p>
+            <p class="text-gray-300 mt-4">Make sure you have the AetherCred-Report.html and /Modules folder in the same script location.</p>
         </section>
 
         <section class="mb-16 guide-section">
-            <h2 class="text-2xl font-bold text-white mb-4">Step 4: Analyze the Report</h2>
+            <h2 class="text-2xl font-bold text-white mb-4">Step 4: Analyse the Report</h2>
             <p class="text-gray-300 mb-4">The generated HTML report is designed to be easily digestible, highlighting critical vulnerabilities and providing actionable remediation steps.</p>
             <ul class="list-disc pl-5 text-gray-300 space-y-2">
-                <li>Review the **User Risk Score** for individual accounts to prioritize remediation efforts.</li>
-                <li>Examine the **Core Security Recommendations** section for a high-level overview of best practices.</li>
-                <li>Utilize the **Remediation Guides** (available on this website) to fix identified issues.</li>
+                <li>Review the <strong>User Risk Score</strong> for individual accounts to prioritize remediation efforts.</li>
+                <li>Examine the <strong>Core Security Recommendations</strong> section for a high-level overview of best practices.</li>
+                <li>Utilize the <strong>Remediation Guides</strong> (available on this website) to fix identified issues.</li>
             </ul>
         </section>
 
