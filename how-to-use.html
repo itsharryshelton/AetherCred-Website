@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AetherCred - How to Use</title>
+    <link rel="icon" href="https://images.aethercred.co.uk/favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+        }
+        .guide-section {
+            background-color: #1f2937; /* bg-gray-800 */
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            border: 1px solid #374151; /* border-gray-700 */
+        }
+        pre {
+            background: #111827; /* bg-gray-900 */
+            border: 1px solid #374151; /* border-gray-700 */
+            border-radius: 0.5rem;
+            padding: 1rem;
+            color: #d1d5db; /* gray-300 */
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        code {
+            background-color: #374151;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 antialiased">
+
+    <!-- Navigation Bar -->
+    <nav x-data="{ open: false }" class="bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="index.html">
+                        <img class="h-8 w-auto" src="https://images.aethercred.co.uk/AetherCredLogoCloud.png" alt="AetherCred Logo" onerror="this.onerror=null;this.src='https://placehold.co/130x32/1f2937/ffffff?text=AetherCred';">
+                    </a>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="index.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="practices.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Best Practices</a>
+                        <a href="msp.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">For MSPs</a>
+                        <a href="remediation.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Remediation Guides</a>
+                        <a href="how-to-use.html" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">How to Use</a>
+                        <a href="demo.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Demo</a>
+                        <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-300 hover:text-white flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                           GitHub
+                        </a>
+                    </div>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button @click="open = !open" type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg :class="{'hidden': open, 'block': !open }" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        <svg :class="{'block': open, 'hidden': !open }" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div x-show="open" @click.away="open = false" class="md:hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="practices.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Best Practices</a>
+                <a href="msp.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">For MSPs</a>
+                <a href="remediation.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Remediation Guides</a>
+                <a href="how-to-use.html" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">How to Use</a>
+                <a href="demo.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Demo</a>
+                <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">GitHub</a>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="container mx-auto p-4 md:p-10">
+        <!-- Page Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-white">How to Use AetherCred</h1>
+            <p class="text-gray-400 mt-3 text-lg max-w-3xl mx-auto">A guide to setting up and running the AetherCred security posture dashboard.</p>
+        </header>
+
+        <div class="space-y-8 max-w-4xl mx-auto">
+
+            <!-- Introduction -->
+            <section class="guide-section">
+                <h2 class="text-2xl font-semibold text-blue-400 mb-3">Overview</h2>
+                <p class="text-gray-300">AetherCred is a PowerShell and HTML-based tool designed to provide a clear and actionable overview of your Microsoft Entra ID security posture. It gathers detailed information about users, their MFA status, roles, and other security-related attributes, then presents it in an intuitive, searchable, and exportable web dashboard.</p>
+                <p class="text-gray-300 mt-2">This tool allows for quick and easy report generating that can be easily shared with non-technical customers to help them better understand their security posture within their Entra estate.</p>
+            </section>
+
+            <!-- Key Features -->
+            <section class="guide-section">
+                <h2 class="text-2xl font-semibold text-white mb-3">Key Features</h2>
+                <ul class="list-disc list-inside space-y-2 text-gray-300">
+                    <li><strong>Comprehensive User Analysis:</strong> Gathers data on all users, including their enabled status, creation date, last sign-in, and password policies.</li>
+                    <li><strong>Detailed MFA Reporting:</strong> Differentiates between Modern MFA (Passwordless, Authenticator App, FIDO2) and Legacy MFA (SMS, Voice, TOTP).</li>
+                    <li><strong>Security Scoring:</strong> Assigns each user a security score from 0-100 based on critical risk factors.</li>
+                    <li><strong>Risk Flagging:</strong> Automatically flags potential security risks such as "MFA Not Registered," "Password Expiry Enabled," and "Never Signed In."</li>
+                    <li><strong>Privileged Role Identification:</strong> Highlights users with high-impact administrative roles.</li>
+                    <li><strong>Interactive Web Dashboard:</strong> Features a clean, dark-mode interface with at-a-glance summary cards and a searchable, sortable data table.</li>
+                    <li><strong>Multiple Export Options:</strong> Generate a branded PDF report directly from the dashboard or use the automatically generated CSV file for analysis in other tools.</li>
+                </ul>
+            </section>
+
+            <!-- Prerequisites -->
+            <section class="guide-section">
+                <h2 class="text-2xl font-semibold text-white mb-3">Prerequisites</h2>
+                <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                    <li><strong>PowerShell:</strong> Version 5.1 or higher.</li>
+                    <li><strong>Microsoft Graph PowerShell SDK:</strong> If not installed, run this command in PowerShell as an administrator:
+                        <pre>Install-Module Microsoft.Graph -Scope AllUsers</pre>
+                    </li>
+                    <li><strong>Required Permissions:</strong> The user running the script needs consent for the following Microsoft Graph API scopes: `Application.ReadWrite.All`, `Directory.Read.All`, `User.Read.All`, `UserAuthenticationMethod.Read.All`, `AuditLog.Read.All`, `Reports.Read.All`.</li>
+                </ol>
+            </section>
+
+            <!-- Setup & Usage -->
+            <section class="guide-section">
+                <h2 class="text-2xl font-semibold text-white mb-3">Setup & Usage</h2>
+                <ol class="list-decimal list-inside space-y-3 text-gray-300">
+                    <li><strong>Download Files:</strong> Place `AetherCred.ps1`, `AetherCred-Dashboard.html`, `AetherCredLogoCloud.png`, and `favicon.ico` into the same folder.</li>
+                    <li><strong>Run the Script:</strong> Open PowerShell, navigate to the folder, and execute the script:
+                        <pre>.\AetherCred.ps1</pre>
+                    </li>
+                    <li><strong>Authenticate:</strong> A Microsoft Graph sign-in window will appear. Sign in with a privileged account. You may be asked to consent to the required API permissions.</li>
+                    <li><strong>View the Report:</strong> Once finished, the script automatically generates the data files and launches the HTML dashboard in your default browser.</li>
+                </ol>
+            </section>
+            
+            <!-- How It Works -->
+            <section class="guide-section">
+                <h2 class="text-2xl font-semibold text-white mb-3">How It Works</h2>
+                <p class="text-gray-300 mb-2">The project is split into two main parts:</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-300">
+                    <li><strong>Data Collection (PowerShell):</strong> The <code>AetherCred.ps1</code> script connects to the Microsoft Graph API to fetch all relevant data. It processes this information, calculates scores, and then exports the final dataset into a <code>.js</code> file for the web dashboard and a <code>.csv</code> file for external use.</li>
+                    <li><strong>Data Visualisation (HTML/JavaScript):</strong> The <code>AetherCred-Dashboard.html</code> file uses the generated <code>.js</code> file as its data source. It uses JavaScript to dynamically build the summary cards and the main data table, providing an interactive user experience without needing a web server.</li>
+                </ul>
+            </section>
+
+            <!-- Customisation -->
+            <section class="guide-section">
+                <h2 class="text-2xl font-semibold text-white mb-3">Customisation</h2>
+                <h3 class="font-semibold text-lg text-gray-300 pt-2">PowerShell Script (`AetherCred.ps1`)</h3>
+                <p class="text-gray-400 mb-2">You can customise the Application details by modifying the variables at the top of the script:</p>
+                <pre># SCRIPT CONFIGURATION
+$AppName = "AetherCred"
+$LogoFileName = "AetherCredLogoCloud.png"
+$HomePageURL = "https://github.com/itsharryshelton"</pre>
+                
+                <h3 class="font-semibold text-lg text-gray-300 pt-4">Dashboard (`AetherCred-Dashboard.html`)</h3>
+                <p class="text-gray-400 mb-2">To ensure your logo appears correctly on PDF exports, you must update the hidden `<img>` tag in the HTML file.</p>
+                <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                    <li>Convert your logo image to a Base64 string using a free online tool.</li>
+                    <li>Open <code>AetherCred-Dashboard.html</code> in a text editor.</li>
+                    <li>Find the line: <code>&lt;img id="logo-for-pdf" src="" ... &gt;</code></li>
+                    <li>Paste your Base64 string inside the <code>src=""</code> attribute.</li>
+                </ol>
+            </section>
+
+            <!-- Roadmap -->
+            <section class="guide-section">
+                <h2 class="text-2xl font-semibold text-white mb-3">Roadmap</h2>
+                <p class="text-gray-400 mb-4">Future enhancements are planned to make AetherCred even more valuable. Contributions and suggestions are always welcome!</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-300">
+                    <li><strong>Enhanced Scoring System:</strong> Introduce more granular scoring based on MFA types and user risk levels from Entra ID Protection.</li>
+                    <li><strong>Historical Data & Trend Analysis:</strong> Add a "Trends" tab to visualise security posture improvements over time.</li>
+                    <li><strong>Deeper Risk Analysis:</strong> Integrate with Entra ID Protection to flag risky users and check for stale privileged accounts.</li>
+                    <li><strong>Improved Dashboard Interactivity:</strong> Add advanced filtering, column sorting, and a light/dark mode toggle.</li>
+                </ul>
+            </section>
+
+        </div>
+
+        <!-- Page Footer -->
+        <footer class="text-center mt-16 border-t border-gray-800 pt-8">
+            <p class="text-sm text-gray-500">AetherCred by Harry Shelton | 2025</p>
+        </footer>
+    </main>
+
+</body>
+</html>

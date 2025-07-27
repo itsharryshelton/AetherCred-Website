@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AetherCred - Entra ID Best Practices for MSPs</title>
+    <link rel="icon" href="https://images.aethercred.co.uk/favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+        }
+        .shield-icon { color: #60a5fa; /* Tailwind blue-400 */ }
+        .card {
+            background-color: #1f2937; /* bg-gray-800 */
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            border: 1px solid #374151; /* border-gray-700 */
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .card-content {
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 antialiased">
+
+    <!-- Navigation Bar -->
+    <nav x-data="{ open: false }" class="bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="index.html">
+                        <img class="h-8 w-auto" src="https://images.aethercred.co.uk/AetherCredLogoCloud.png" alt="AetherCred Logo" onerror="this.onerror=null;this.src='https://placehold.co/130x32/1f2937/ffffff?text=AetherCred';">
+                    </a>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="index.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="practices.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Best Practices</a>
+                        <a href="msp.html" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">For MSPs</a>
+                        <a href="remediation.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Remediation Guides</a>
+                        <a href="how-to-use.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">How to Use</a>
+                        <a href="demo.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Demo</a>
+                        <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-300 hover:text-white flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                           GitHub
+                        </a>
+                    </div>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button @click="open = !open" type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg :class="{'hidden': open, 'block': !open }" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        <svg :class="{'block': open, 'hidden': !open }" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div x-show="open" @click.away="open = false" class="md:hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="practices.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Best Practices</a>
+                <a href="msp.html" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">For MSPs</a>
+                <a href="remediation.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Remediation Guides</a>
+                <a href="how-to-use.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">How to Use</a>
+                <a href="demo.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Demo</a>
+                <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">GitHub</a>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="container mx-auto p-4 md:p-10">
+        <!-- Page Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-white">Entra ID Security for MSPs</h1>
+            <p class="text-gray-400 mt-3 text-lg max-w-3xl mx-auto">Standardise and secure your client tenants with these essential, scalable practices for Managed Service Providers.</p>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- GDAP -->
+            <div class="card lg:col-span-2">
+                <h2 class="text-2xl font-semibold text-blue-400 mb-3">Transition to GDAP Immediately</h2>
+                <div class="card-content">
+                    <p class="text-gray-300 mb-4">Granular Delegated Admin Privileges (GDAP) is the modern, secure way to manage customer tenants. It replaces the legacy DAP model, which granted high-level, standing Global Admin access.</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li><strong>Least Privilege:</strong> Assign only the specific Entra ID roles your technicians need for their job (e.g., Helpdesk Administrator, not Global Admin).</li>
+                        <li><strong>Time-Bound:</strong> GDAP relationships are time-limited and must be renewed, preventing indefinite standing access.</li>
+                        <li><strong>Security Groups:</strong> Assign GDAP roles to security groups in your MSP tenant (e.g., "1st Line IT," "Cloud Engineers") for scalable management.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Break-Glass Account -->
+            <div class="card">
+                <h2 class="text-2xl font-semibold text-yellow-400 mb-3">The Break-Glass Account</h2>
+                <div class="card-content">
+                    <p class="text-gray-300 mb-4">Every tenant you manage (and your own) must have at least two emergency access accounts, often called "break-glass" accounts.</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li><strong>Purpose:</strong> For use only when normal administrative accounts are unusable.</li>
+                        <li><strong>Configuration:</strong> Exclude from all Conditional Access policies, MFA requirements, and SSPR.</li>
+                        <li><strong>Security:</strong> Use a very long, complex password stored securely offline. Monitor sign-ins vigilantly.</li>
+                        <li><strong>Locking Down:</strong> Use a dedicated Conditional Access policy to only allow access from your MSP HQ IP or a trusted customer location.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- RBAC Model -->
+            <div class="card">
+                <h2 class="text-2xl font-semibold text-white mb-3">Standardise Your RBAC Model</h2>
+                <div class="card-content">
+                    <p class="text-gray-300 mb-4">Never use the Global Administrator role for daily tasks. Define a standard Role-Based Access Control (RBAC) model for your team. A basic example could be:</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li><strong>Tier 1 / Helpdesk:</strong> Helpdesk Administrator.</li>
+                        <li><strong>Tier 2 / Admins:</strong> User Administrator, Groups Administrator, Teams Administrator.</li>
+                        <li><strong>Tier 3 / Projects:</strong> Exchange Administrator, SharePoint Administrator.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Baseline Security Policy -->
+            <div class="card lg:col-span-2">
+                <h2 class="text-2xl font-semibold text-white mb-3">Enforce a Baseline Security Policy</h2>
+                <div class="card-content">
+                    <p class="text-gray-300 mb-4">Apply a non-negotiable set of security policies to every client tenant to establish a secure foundation. Use Conditional Access to enforce them.</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li><strong>Require Phishing-Resistant MFA:</strong> Enforce Microsoft Authenticator with number matching or FIDO2 keys for all users, especially admins.</li>
+                        <li><strong>Block Legacy Authentication:</strong> This is a critical step to prevent password spray attacks that bypass MFA.</li>
+                        <li><strong>Enable SSPR:</strong> Empower users to reset their own passwords to reduce helpdesk tickets, but ensure strong registration requirements (e.g., 2 methods).</li>
+                        <li><strong>Block High-Risk Countries:</strong> If your clients don't do business internationally, use the location condition to block sign-ins from high-risk regions.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Customer Handovers -->
+            <div class="card lg:col-span-3">
+                <h2 class="text-2xl font-semibold text-white mb-3">Secure Customer Handovers</h2>
+                <div class="card-content">
+                    <p class="text-gray-300 mb-4">A structured process for onboarding and offboarding customers is critical to prevent lingering access and ensure a secure transition between IT providers.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-semibold text-lg text-green-400 mb-2">Onboarding a New Customer</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-300">
+                                <li><strong>Audit Privileged Roles:</strong> Immediately identify all Global Admins and other high-privilege roles.</li>
+                                <li><strong>Remove Previous Provider:</strong> Work with the customer to remove all access for the former IT provider, including old DAP and GDAP relationships.</li>
+                                <li><strong>Establish Your GDAP:</strong> Create a new GDAP relationship with the least-privilege roles necessary for your service agreement.</li>
+                                <li><strong>Secure Admins:</strong> Force password resets for all remaining administrative accounts and ensure they are secured with phishing-resistant MFA.</li>
+                                <li><strong>Run Baseline Scan:</strong> Use a tool like AetherCred to get an immediate snapshot of the tenant's security posture.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg text-red-400 mb-2">Offboarding a Customer</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-300">
+                                <li><strong>Confirm Customer GA:</strong> Ensure the customer has at least two of their own Global Admin / Break-Glass accounts that you do not control.</li>
+                                <li><strong>Coordinate Handover:</strong> Work with the new IT provider to help them establish their own GDAP access.</li>
+                                <li><strong>Provide Final Report:</strong> Give the customer a final security report, detailing the state of the tenant as you leave it.</li>
+                                <li><strong>Remove Your Access:</strong> Once the new provider confirms access, completely remove your GDAP relationship from the customer's tenant.</li>
+                                <li><strong>Document Everything:</strong> Keep a record of all handover communications and actions taken.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SOC Monitoring -->
+            <div class="card lg:col-span-3">
+                <h2 class="text-2xl font-semibold text-white mb-3">Implement 24/7 SOC Monitoring</h2>
+                <div class="card-content">
+                    <p class="text-gray-300 mb-4">Your security policies are the locks on the doors; a Security Operations Centre (SOC) is the automated CCTV and alarm system. It spots threats far faster than a human ever could, providing the continuous monitoring essential for protecting client tenants at scale. While not a replacement for skilled engineers, a SOC is the critical first line of automated defence against sophisticated attacks.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-semibold text-lg text-blue-400 mb-2">Key Identity Threats to Monitor</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-300">
+                                <li><strong>Impossible Travel:</strong> A user signing in from two geographically distant locations in a short time.</li>
+                                <li><strong>Sign-ins from Anonymous IPs:</strong> Access from Tor nodes or anonymous proxies.</li>
+                                <li><strong>Privilege Escalation:</strong> A user being added to a high-privilege role outside of a normal process.</li>
+                                <li><strong>Unusual Login Properties:</strong> First-time sign-ins from a new country or unfamiliar device.</li>
+                                 <li><strong>Massive Data Deletion:</strong> A user deleting an unusual volume of files from SharePoint or OneDrive.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg text-white mb-2">Tooling Options</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-300">
+                                <li><strong>Microsoft Native:</strong> For customers with the right licences (e.g., Entra ID P2), **Identity Protection** automates detection of risky users and sign-ins. These signals can be fed into **Microsoft Sentinel** (a cloud-native SIEM/SOAR) for advanced analysis and response.</li>
+                                <li><strong>Third-Party SOC:</strong> Many MSPs partner with dedicated SOC providers like **RocketCyber** or others that specialise in integrating with the Microsoft ecosystem to provide a managed detection and response service across all clients.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Securing the MSP Tenant -->
+            <div class="card lg:col-span-2 border-red-500/50">
+                <h2 class="text-2xl font-semibold text-red-400 mb-3">Secure Your Own House First</h2>
+                <div class="card-content">
+                    <p class="text-gray-300 mb-4">Your MSP tenant holds the "keys to the kingdom." A compromise of your own tenant could lead to a catastrophic supply-chain attack against all your clients. It must be your most secure environment.</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li><strong>Enforce PIM for Everything:</strong> All roles, including those for managing GDAP, should require Privileged Identity Management (PIM) activation with approval.</li>
+                        <li><strong>Strict CA Policies:</strong> Your internal Conditional Access policies should be the most stringent, requiring phishing-resistant MFA and compliant, managed devices for all admin tasks.</li>
+                        <li><strong>Limit GDAP Management:</strong> Only a small, select group of senior engineers should have the ability to manage GDAP relationships and role assignments.</li>
+                        <li><strong>Intense Auditing:</strong> Regularly audit your own tenant's sign-in and audit logs, paying close attention to administrative activities and alerts from your SOC.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Standardisation & Automation -->
+            <div class="card">
+                <h2 class="text-2xl font-semibold text-white mb-3">Standardise & Automate</h2>
+                <div class="card-content">
+                    <p class="text-gray-300 mb-4">Efficiency, consistency, and security at scale are only possible through standardisation and automation.</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li><strong>Scripted Policies:</strong> Use PowerShell or Microsoft Graph scripts to deploy your baseline Conditional Access policies to all new clients.</li>
+                        <li><strong>Microsoft 365 Lighthouse:</strong> Use Lighthouse to get a multi-tenant view of security posture and deploy baseline configurations across clients.</li>
+                        <li><strong>Consistent Naming:</strong> Enforce a strict naming convention for all policies, groups, and administrative accounts to avoid confusion and errors.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Entitlement Management -->
+            <div class="card">
+                <h2 class="text-2xl font-semibold text-white mb-3">Implement Entitlement Management</h2>
+                <div class="card-content">
+                    <p class="text-gray-300 mb-4">Automate and govern access for client projects or internal roles using Entra ID's Entitlement Management features (requires Entra ID P2).</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li><strong>Access Packages:</strong> Bundle all the resources for a specific role (e.g., group memberships, application access) into a single package.</li>
+                        <li><strong>Automated Lifecycle:</strong> Use approval workflows and time-limited assignments to ensure access is revoked automatically.</li>
+                        <li><strong>Scheduled Reviews:</strong> Conduct regular attestation campaigns (Access Reviews) to prevent stale permissions.</li>
+                        <li><strong>Audit Trail:</strong> Maintain compliance with exportable audit reports for all access requests and reviews.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Secure Score Monitoring -->
+            <div class="card">
+                <h2 class="text-2xl font-semibold text-white mb-3">Secure Score Monitoring</h2>
+                <div class="card-content">
+                    <p class="text-gray-300 mb-4">Treat AetherCred User Score and Microsoft Secure Score as a key performance indicator (KPI) for your clients' security posture, not just a passive report.</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li><strong>Baseline & Trend Analysis:</strong> Establish a baseline score for each client and track trends to demonstrate improvement over time.</li>
+                        <li><strong>Automated Alerts:</strong> Use Logic Apps or Sentinel to create alerts for significant score drops or new high-impact recommendations.</li>
+                        <li><strong>Remediation Playbooks:</strong> Develop standardised procedures for common Secure Score actions to enable quick resolution.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Periodic Security Reviews -->
+            <div class="card">
+                <h2 class="text-2xl font-semibold text-white mb-3">Periodic Security Reviews</h2>
+                <div class="card-content">
+                    <p class="text-gray-300 mb-4">Well-Designed Security isn't set once and forget. You should conduct security reviews as often as possible, to demonstrate ongoing diligence and provide strategic insights.</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li><strong>Detect Configuration Drift:</strong> Check for any changes that deviate from your established security baseline.</li>
+                        <li><strong>Validate Compliance:</strong> Assess the tenant's configuration against standards like Cyber Essentials, ISO 27001, or SOC2.</li>
+                        <li><strong>Deliver Executive Reports:</strong> Provide clients with clear, concise reports that show security improvements and highlight remaining risks.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Page Footer -->
+        <footer class="text-center mt-16 border-t border-gray-800 pt-8">
+            <p class="text-sm text-gray-500">AetherCred by Harry Shelton | 2025</p>
+        </footer>
+    </main>
+
+</body>
+</html>

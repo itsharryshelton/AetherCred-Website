@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AetherCred - Remediation Guides</title>
+    <link rel="icon" href="https://images.aethercred.co.uk/favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+        }
+        .guide-section {
+            background-color: #1f2937; /* bg-gray-800 */
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            border: 1px solid #374151; /* border-gray-700 */
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 antialiased">
+
+    <!-- Navigation Bar -->
+    <nav x-data="{ open: false }" class="bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="index.html">
+                        <img class="h-8 w-auto" src="https://images.aethercred.co.uk/AetherCredLogoCloud.png" alt="AetherCred Logo" onerror="this.onerror=null;this.src='https://placehold.co/130x32/1f2937/ffffff?text=AetherCred';">
+                    </a>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="index.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="practices.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Best Practices</a>
+                        <a href="msp.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">For MSPs</a>
+                        <a href="remediation.html" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Remediation Guides</a>
+                        <a href="how-to-use.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">How to Use</a>
+                        <a href="demo.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Demo</a>
+                        <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-300 hover:text-white flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                           GitHub
+                        </a>
+                    </div>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button @click="open = !open" type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg :class="{'hidden': open, 'block': !open }" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        <svg :class="{'block': open, 'hidden': !open }" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div x-show="open" @click.away="open = false" class="md:hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="practices.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Best Practices</a>
+                <a href="msp.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">For MSPs</a>
+                <a href="remediation.html" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Remediation Guides</a>
+                <a href="how-to-use.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">How to Use</a>
+                <a href="demo.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Demo</a>
+                <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">GitHub</a>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="container mx-auto p-4 md:p-10">
+        <!-- Page Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-white">Remediation Guides</h1>
+            <p class="text-gray-400 mt-3 text-lg max-w-3xl mx-auto">Step-by-step guidance for implementing key Entra ID security controls. These guides provide a high-level overview of the process.</p>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="space-y-8">
+
+            <!-- Guide: Block Legacy Authentication -->
+            <section class="guide-section">
+                <h2 class="text-2xl font-semibold text-blue-400 mb-3">Block Legacy Authentication</h2>
+                <p class="text-gray-400 mb-4"><strong>Why:</strong> Prevents password spray attacks and ensures all sign-ins can be protected by modern controls like MFA.</p>
+                <div class="text-gray-300 space-y-2">
+                    <p><strong>Licensing Note:</strong> Requires Entra ID P1 or higher.</p>
+                    <h3 class="font-semibold text-white pt-2">How to Implement:</h3>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li>Navigate to the Entra admin centre > Protection > Conditional Access.</li>
+                        <li>Create a new policy named "Block Legacy Authentication".</li>
+                        <li>Under 'Assignments', target 'All users'. Exclude your break-glass accounts.</li>
+                        <li>Under 'Target resources', target 'All cloud apps'.</li>
+                        <li>Under 'Conditions', select 'Client apps' and configure it to target 'Mobile apps and desktop clients' > 'Other clients'.</li>
+                        <li>Under 'Grant', select 'Block access'.</li>
+                        <li>Enable the policy in 'Report-only' mode first to assess impact, then switch to 'On'.</li>
+                    </ol>
+                    <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/howto-conditional-access-policy-block-legacy" target="_blank" class="text-blue-400 hover:underline pt-2 inline-block">Microsoft Learn Documentation &rarr;</a>
+                </div>
+            </section>
+
+            <!-- Guide: Enforce Phishing-Resistant MFA -->
+            <section class="guide-section">
+                <h2 class="text-2xl font-semibold text-blue-400 mb-3">Enforce Phishing-Resistant MFA</h2>
+                <p class="text-gray-400 mb-4"><strong>Why:</strong> Protects against phishing and credential theft by requiring a secure second factor that cannot be easily intercepted.</p>
+                <div class="text-gray-300 space-y-2">
+                    <p><strong>Licensing Note:</strong> Requires Entra ID P1 or higher.</p>
+                    <h3 class="font-semibold text-white pt-2">How to Implement:</h3>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li>Navigate to Protection > Authentication methods > Policies.</li>
+                        <li>Enable modern methods like 'Microsoft Authenticator', 'FIDO2 security key', and disable legacy options like 'SMS' and 'Voice call'.</li>
+                        <li>In the Microsoft Authenticator settings, ensure 'Number matching' is enabled for all users.</li>
+                        <li>Create a Conditional Access policy targeting 'All users' (excluding break-glass accounts) and 'All cloud apps'.</li>
+                        <li>Under 'Grant', select 'Grant access' but require 'Multifactor authentication'.</li>
+                        <li>For the highest security, you can specify 'Require phishing-resistant multifactor authentication'.</li>
+                    </ol>
+                    <a href="https://learn.microsoft.com/en-us/entra/identity/authentication/concept-authentication-methods-manage" target="_blank" class="text-blue-400 hover:underline pt-2 inline-block">Microsoft Learn Documentation &rarr;</a>
+                </div>
+            </section>
+
+            <!-- Guide: Implement PIM -->
+            <section class="guide-section">
+                <h2 class="text-2xl font-semibold text-blue-400 mb-3">Implement Privileged Identity Management (PIM)</h2>
+                <p class="text-gray-400 mb-4"><strong>Why:</strong> Enforces least-privilege access by making admin roles "just-in-time" instead of permanent, drastically reducing the risk from compromised admin accounts.</p>
+                <div class="text-gray-300 space-y-2">
+                    <p><strong>Licensing Note:</strong> Requires Entra ID P2.</p>
+                    <h3 class="font-semibold text-white pt-2">How to Implement:</h3>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li>Navigate to Identity governance > Privileged Identity Management.</li>
+                        <li>Select 'Entra ID roles' and then 'Assignments'.</li>
+                        <li>Identify users with permanent high-privilege roles (e.g., Global Administrator).</li>
+                        <li>Remove their permanent assignment and re-add them as 'Eligible' for the same role.</li>
+                        <li>Select the role under 'Settings' to configure activation requirements, such as requiring MFA, justification, or approval from another admin.</li>
+                        <li>Repeat for all critical administrative roles.</li>
+                    </ol>
+                    <a href="https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-getting-started" target="_blank" class="text-blue-400 hover:underline pt-2 inline-block">Microsoft Learn Documentation &rarr;</a>
+                </div>
+            </section>
+
+            <!-- Guide: Disable Password Expiry -->
+            <section class="guide-section">
+                <h2 class="text-2xl font-semibold text-blue-400 mb-3">Disable Password Expiry</h2>
+                <p class="text-gray-400 mb-4"><strong>Why:</strong> Modern research shows that forced password changes lead to weaker, predictable passwords. Disabling expiry, when combined with strong MFA, is more secure.</p>
+                <div class="text-gray-300 space-y-2">
+                    <p><strong>Licensing Note:</strong> Available in all Entra ID tiers.</p>
+                    <h3 class="font-semibold text-white pt-2">How to Implement (PowerShell):</h3>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li>Connect to Microsoft Graph PowerShell: `Connect-MgGraph -Scopes "User.Read.All", "Policy.ReadWrite.Authorization"`</li>
+                        <li>Check the current policy: `Get-MgPolicyAuthorizationPolicy | Select-Object DefaultUserRolePermissions, GuestUserRole, AllowedToUseSSPR`</li>
+                        <li>To set passwords to never expire for all users, run: `Get-MgUser -All | ForEach-Object { Update-MgUser -UserId $_.Id -PasswordPolicies "DisablePasswordExpiration" }`</li>
+                        <li>For individual users: `Update-MgUser -UserId 'user@domain.com' -PasswordPolicies "DisablePasswordExpiration"`</li>
+                    </ol>
+                    <a href="https://learn.microsoft.com/en-us/entra/identity/authentication/concept-sspr-policy#password-expiration-policy" target="_blank" class="text-blue-400 hover:underline pt-2 inline-block">Microsoft Learn Documentation &rarr;</a>
+                </div>
+            </section>
+
+            <!-- NEW Guide: Restrict User Consent -->
+            <section class="guide-section">
+                <h2 class="text-2xl font-semibold text-blue-400 mb-3">Restrict User Consent to Applications</h2>
+                <p class="text-gray-400 mb-4"><strong>Why:</strong> The default setting allows users to grant permissions to third-party apps, creating a risk of "consent phishing" where malicious apps steal data.</p>
+                <div class="text-gray-300 space-y-2">
+                    <p><strong>Licensing Note:</strong> Available in all Entra ID tiers.</p>
+                    <h3 class="font-semibold text-white pt-2">How to Implement:</h3>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li>Navigate to the Entra admin centre > Identity > Applications > Enterprise applications > Consent and permissions.</li>
+                        <li>Under 'User consent settings', select the option 'Do not allow user consent'.</li>
+                        <li>This change prevents non-admins from authorising new applications.</li>
+                        <li>To allow users to request access to new apps, configure the 'Admin consent workflow' on the same page. This creates a formal review process for administrators.</li>
+                    </ol>
+                    <a href="https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/configure-user-consent" target="_blank" class="text-blue-400 hover:underline pt-2 inline-block">Microsoft Learn Documentation &rarr;</a>
+                </div>
+            </section>
+
+            <!-- Guide: Configure a Break-Glass Account -->
+            <section class="guide-section">
+                <h2 class="text-2xl font-semibold text-blue-400 mb-3">Configure a Break-Glass Account</h2>
+                <p class="text-gray-400 mb-4"><strong>Why:</strong> Ensures you can always access a tenant, even if all other admin accounts are locked out due to a misconfiguration or security incident.</p>
+                <div class="text-gray-300 space-y-2">
+                    <p><strong>Licensing Note:</strong> Available in all Entra ID tiers.</p>
+                    <h3 class="font-semibold text-white pt-2">How to Implement:</h3>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li>Create two new, cloud-only user accounts (e.g., `breakglass@tenant.onmicrosoft.com`).</li>
+                        <li>Assign the 'Global Administrator' role to both.</li>
+                        <li>Generate a very long (30+ character), complex password for each and store them securely in separate, offline locations.</li>
+                        <li>Do not configure any MFA methods or SSPR details for these accounts.</li>
+                        <li>Create a dedicated security group named "EXCLUDE - Break-Glass Accounts" and add both accounts to it.</li>
+                        <li>In all your Conditional Access policies, add this group to the 'Exclude' list to ensure they are never blocked.</li>
+                        <li>Consider using a dedicated Conditional Access Policy to only allow these Breakglass Users to sign in from specific IPs (Such as your Office) </li>
+                        <li>Set up high-priority alerts in your SOC/monitoring tool to trigger on any sign-in from these accounts.</li>
+                    </ol>
+                    <a href="https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/security-emergency-access" target="_blank" class="text-blue-400 hover:underline pt-2 inline-block">Microsoft Learn Documentation &rarr;</a>
+                </div>
+            </section>
+
+            <!-- Guide: Enable Self-Service Password Reset (SSPR) -->
+            <section class="guide-section">
+                <h2 class="text-2xl font-semibold text-blue-400 mb-3">Enable Self-Service Password Reset (SSPR)</h2>
+                <p class="text-gray-400 mb-4"><strong>Why:</strong> Reduces helpdesk tickets and empowers users, but must be configured securely to prevent it from becoming a weak link.</p>
+                <div class="text-gray-300 space-y-2">
+                    <p><strong>Licensing Note:</strong> Basic SSPR is free for cloud users. Password writeback to on-premises AD requires Entra ID P1 or higher.</p>
+                    <h3 class="font-semibold text-white pt-2">How to Implement:</h3>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li>Navigate to Protection > Password reset.</li>
+                        <li>Under 'Properties', choose to enable SSPR for 'Selected' groups or 'All' users. Start with a pilot group.</li>
+                        <li>Go to 'Authentication methods'. Set 'Number of methods required to reset' to <strong>2</strong></li>
+                        <li>Select secure methods for users. Avoid relying solely on 'Email' or security questions.</li>
+                        <li>Under 'Registration', set 'Require users to register when signing in?' to 'Yes' to enforce enrolment.</li>
+                        <li>If you have a hybrid environment, configure password writeback for your On-Premises Sync Method </li>
+                    </ol>
+                    <a href="https://learn.microsoft.com/en-us/entra/identity/authentication/tutorial-enable-sspr" target="_blank" class="text-blue-400 hover:underline pt-2 inline-block">Microsoft Learn Documentation &rarr;</a>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Page Footer -->
+        <footer class="text-center mt-16 border-t border-gray-800 pt-8">
+            <p class="text-sm text-gray-500">AetherCred by Harry Shelton | 2025</p>
+        </footer>
+    </main>
+
+</body>
+</html>

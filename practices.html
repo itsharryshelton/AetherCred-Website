@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AetherCred - Best Practices for Entra Security</title>
+    <link rel="icon" href="https://images.aethercred.co.uk/favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+        }
+        /* Styles for tables */
+        .check-icon { color: #4ade80; /* Tailwind green-400 */ }
+        .cross-icon { color: #f87171; /* Tailwind red-400 */ }
+        .warning-icon { color: #facc15; /* Tailwind yellow-400 */ }
+        .shield-icon { color: #60a5fa; /* Tailwind blue-400 */ }
+        .info-icon { color: #93c5fd; /* Tailwind blue-300 */ }
+        /* Custom style for PowerShell code block */
+        pre[class*="language-"] {
+            background: #1f2937; /* gray-800 */
+            border: 1px solid #374151; /* gray-700 */
+            border-radius: 0.5rem;
+            padding: 1rem;
+            color: #d1d5db; /* gray-300 */
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            /* Don't remove other will break the powershell logic section :D */
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 antialiased">
+        <!-- Navigation Bar -->
+    <nav x-data="{ open: false }" class="bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="index.html">
+                        <img class="h-8 w-auto" src="https://images.aethercred.co.uk/AetherCredLogoCloud.png" alt="AetherCred Logo" onerror="this.onerror=null;this.src='https://placehold.co/130x32/1f2937/ffffff?text=AetherCred';">
+                    </a>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="index.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="practices.html" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Best Practices</a>
+                        <a href="msp.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" >For MSPs</a>
+                        <a href="remediation.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Remediation Guides</a>
+                        <a href="how-to-use.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">How to Use</a>
+                        <a href="demo.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Demo</a>
+                        <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-300 hover:text-white flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                           GitHub
+                        </a>
+                    </div>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button @click="open = !open" type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg :class="{'hidden': open, 'block': !open }" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        <svg :class="{'block': open, 'hidden': !open }" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div x-show="open" @click.away="open = false" class="md:hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="practices.html" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Best Practices</a>
+                <a href="msp.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">For MSPs</a>
+                <a href="remediation.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Remediation Guides</a>
+                <a href="how-to-use.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">How to Use</a>
+                <a href="demo.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Demo</a>
+                <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">GitHub</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-4 md:p-10">
+        <!-- Page Header -->
+        <header class="text-center mb-12">
+        <a href="index.html" class="inline-block">
+            <img src="https://images.aethercred.co.uk/AetherCredLogoCloud.png" 
+                alt="AetherCred Logo" 
+                class="mx-auto h-16 mb-4"
+                onerror="this.onerror=null;this.src='https://placehold.co/200x56/111827/ffffff?text=AetherCred';">
+        </a>
+        <h1 class="text-5xl font-extrabold text-white tracking-tight">AetherCred</h1>
+        <h2 class="text-2xl md:text-3xl font-medium text-blue-400 mt-2">Best Practices for Entra Security</h2>
+        <p class="text-gray-400 mt-3 text-lg max-w-2xl mx-auto">Actionable guidance and licence-aware recommendations to strengthen your identity posture in Microsoft Entra.</p>
+        </header>
+
+        <!-- Best Practices Table Section -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-white mb-4">Core Security Recommendations</h2>
+            <div class="bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md overflow-x-auto">
+                <table class="min-w-full text-left text-sm sm:text-base">
+                    <thead class="bg-gray-700 text-gray-300">
+                        <tr>
+                            <th class="px-4 py-3 font-semibold">Policy / Action</th>
+                            <th class="px-4 py-3 font-semibold">Why It Matters</th>
+                            <th class="px-4 py-3 font-semibold">Recommended Process</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-200 divide-y divide-gray-600">
+                        <tr><td class="px-4 py-3 font-medium">Disable Password Expiry</td><td class="px-4 py-3">Forced changes often lead to weaker, predictable passwords. Modern authentication makes expiry obsolete.</td><td class="px-4 py-3">Set user password policies to "Never Expire" unless regulatory requirements mandate it. Combine with strong MFA.</td></tr>
+                        <tr><td class="px-4 py-3 font-medium">Enforce Modern MFA</td><td class="px-4 py-3">Legacy methods (SMS, voice) are vulnerable to phishing and interception. Modern methods are phishing-resistant.</td><td class="px-4 py-3">Use Conditional Access to enforce Microsoft Authenticator (with number matching), FIDO2 keys, or Passwordless.</td></tr>
+                        <tr><td class="px-4 py-3 font-medium">Block Legacy Authentication</td><td class="px-4 py-3">These protocols (IMAP, POP3) bypass MFA, making them a primary vector for password spray attacks.</td><td class="px-4 py-3">Use a Conditional Access policy to block legacy authentication. Monitor sign-in logs to migrate reliant apps first.</td></tr>
+                        <tr><td class="px-4 py-3 font-medium">Review & Limit Admin Roles (PIM)</td><td class="px-4 py-3">Standing admin access violates least privilege. A compromised Global Admin account is catastrophic.</td><td class="px-4 py-3">Use PIM for Just-In-Time (JIT) role eligibility with MFA, justification, and approval workflows.</td></tr>
+                        <tr><td class="px-4 py-3 font-medium">Enable Identity Protection</td><td class="px-4 py-3">Automatically detects and remediates identity risks like leaked credentials, anonymous IPs, and impossible travel.</td><td class="px-4 py-3">Configure risk policies to automatically force MFA or a secure password reset when high risk is detected.</td></tr>
+                        <tr><td class="px-4 py-3 font-medium">Enforce Device Compliance</td><td class="px-4 py-3">Ensures only healthy devices (encrypted, up-to-date) can access corporate data, reducing risk from compromised endpoints.</td><td class="px-4 py-3">Create Intune compliance policies and use Conditional Access to require compliant devices for access.</td></tr>
+                        <tr><td class="px-4 py-3 font-medium">Restrict User Consent to Apps</td><td class="px-4 py-3">Malicious OAuth apps can trick users into granting permissions, leading to data exfiltration without password theft.</td><td class="px-4 py-3">Block user consent and establish an admin consent workflow to vet and approve all new applications.</td></tr>
+                        <tr><td class="px-4 py-3 font-medium">Remove Stale Accounts</td><td class="px-4 py-3">Dormant accounts increase the attack surface, especially if they are unmonitored or retain privileges.</td><td class="px-4 py-3">Use AetherCred to identify unused accounts and implement a process to disable and eventually delete them.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- AetherCred Scoring System -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-white mb-4">How AetherCred Scores User Risk</h2>
+            <p class="text-gray-400 mb-6 max-w-3xl">AetherCred assigns each user a score from 0 to 100 to help you quickly identify the highest-risk accounts. The score starts at 100 and deducts points for specific misconfigurations. A lower score indicates a higher risk.</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Scoring Breakdown -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h3 class="font-semibold text-lg text-white mb-4">Scoring Breakdown</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="text-red-400 font-bold text-lg w-16">-50</span>
+                            <span class="text-gray-300"><strong>MFA Disabled:</strong> The single most effective way to secure an account. Its absence is a critical vulnerability.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-yellow-400 font-bold text-lg w-16">-20</span>
+                            <span class="text-gray-300"><strong>Password Expires:</strong> Encourages weak password habits and is obsolete when modern controls are used.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-yellow-400 font-bold text-lg w-16">-20</span>
+                            <span class="text-gray-300"><strong>Never Signed In:</strong> A potential stale or orphaned account that increases the attack surface.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-purple-400 font-bold text-lg w-16">-10</span>
+                            <span class="text-gray-300"><strong>Privileged Role:</strong> Any administrative role makes an account a higher-value target for attackers.</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- PowerShell Logic -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h3 class="font-semibold text-lg text-white mb-4">PowerShell Logic</h3>
+                    <pre class="language-powershell"><code>function Calculate-UserScore($mfaEnabled, $passwordNeverExpires, $neverSignedIn, $privilegedRole) {
+    $score = 100
+    if (-not $mfaEnabled) { $score -= 50 }
+    if (-not $passwordNeverExpires) { $score -= 20 }
+    if ($neverSignedIn) { $score -= 20 }
+    if ($privilegedRole) { $score -= 10 }
+    if ($score -lt 0) { $score = 0 }
+    return $score
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Legacy vs Modern MFA Section -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-white mb-4">Understanding MFA: Legacy vs. Modern</h2>
+            <p class="text-gray-400 mb-6 max-w-3xl">Not all Multi-Factor Authentication methods are created equal. Modern, phishing-resistant methods provide significantly higher security assurance than their legacy counterparts.</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Legacy MFA Column -->
+                <div class="bg-gray-800 p-6 rounded-lg border border-yellow-500/30 flex flex-col">
+                    <h3 class="font-semibold text-xl text-white flex items-center gap-2 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 warning-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                        Legacy MFA (Phishable)
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-4">These methods are vulnerable to social engineering, interception, and phishing attacks.</p>
+                    <ul class="space-y-2 text-gray-300 text-sm">
+                        <li><strong>SMS (Text Message):</strong> Codes can be stolen via SIM-swapping attacks.</li>
+                        <li><strong>Voice Call:</strong> Prone to interception and can be confusing for users.</li>
+                        <li><strong>Email OTP:</strong> If the email account is compromised, so is MFA.</li>
+                    </ul>
+                    <hr class="border-gray-700 my-4">
+                    <h4 class="font-semibold text-lg text-yellow-300 mb-2">Common Attack Vectors</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><strong>Social Engineering:</strong> Tricking users into revealing their one-time codes.</li>
+                        <li><strong>Adversary-in-the-Middle (AiTM):</strong> Using spoofed login pages to capture credentials and session tokens in real-time.</li>
+                        <li><strong>Prompt Bombing (Fatigue):</strong> Overwhelming users with push notifications until one is approved by mistake.</li>
+                    </ul>
+                </div>
+                <!-- Modern MFA Column -->
+                <div class="bg-gray-800 p-6 rounded-lg border border-blue-500/30 flex flex-col">
+                    <h3 class="font-semibold text-xl text-white flex items-center gap-2 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shield-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                        Modern MFA (Phishing-Resistant)
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-4">These methods use secure channels or cryptography, making them highly resistant to the attacks that plague legacy MFA.</p>
+                    <ul class="space-y-2 text-gray-300 text-sm">
+                        <li><strong>Microsoft Authenticator:</strong> Push notifications with Number Matching prevent accidental approval and show context.</li>
+                        <li><strong>Passwordless Sign-in:</strong> Removes the password as an attack vector entirely.</li>
+                        <li><strong>FIDO2 Security Keys:</strong> Hardware keys (e.g., YubiKey) provide the highest assurance via public-key cryptography that cannot be phished.</li>
+                        <li><strong>Windows Hello for Business:</strong> Uses biometrics tied to a device's secure TPM chip.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Strong vs Phishing-Resistant Section -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-white mb-4">Strong vs. Phishing-Resistant MFA</h2>
+            <p class="text-gray-400 mb-6 max-w-3xl">While related, these are two distinct concepts. Phishing resistance is the gold standard for security.</p>
+             <div class="bg-gray-800 p-6 rounded-lg shadow-md">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-lg text-white mb-2">Strong Authentication</h4>
+                        <p class="text-gray-400 text-sm">Refers to any resilient verification method that provides high assurance of a user's identity. This can still include some legacy methods like SMS, which are considered "stronger" than a password alone, but are not immune to phishing.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-lg text-white mb-2">Phishing-Resistant Authentication</h4>
+                        <p class="text-gray-400 text-sm">Specifically focuses on preventing social engineering and credential theft. These methods, like FIDO2, are inherently secure by design because their cryptographic protocols cannot be used on fraudulent sites, regardless of user behavior.</p>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <!-- License Comparison Table Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-white mb-4">Entra ID Feature & License Comparison</h2>
+            <p class="text-gray-400 mb-6 max-w-3xl">Understanding which features are in each tier is crucial for security planning and budgeting.</p>
+            <div class="bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md overflow-x-auto">
+                <table class="min-w-full text-left text-sm sm:text-base">
+                    <thead class="bg-gray-700 text-gray-300">
+                        <tr>
+                            <th class="px-4 py-3 font-semibold w-1/3">Feature / Capability</th>
+                            <th class="px-4 py-3 font-semibold text-center">Entra ID Free</th>
+                            <th class="px-4 py-3 font-semibold text-center">Entra ID P1</th>
+                            <th class="px-4 py-3 font-semibold text-center">Entra ID P2</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-200 divide-y divide-gray-600">
+                        <tr><td class="px-4 py-4"><p class="font-medium text-white">Conditional Access (CA)</p><p class="text-xs text-gray-400 mt-1">The core engine for enforcing access policies.</p></td><td class="px-4 py-4 text-center align-middle"><span class="cross-icon text-2xl font-bold" title="Not available">❌</span></td><td class="px-4 py-4 text-center align-middle"><span class="check-icon text-2xl font-bold" title="Available">✔️</span></td><td class="px-4 py-4 text-center align-middle"><span class="check-icon text-2xl font-bold" title="Available">✔️</span></td></tr>
+                        <tr><td class="px-4 py-4"><p class="font-medium text-white">Token Protection (in CA)</p><p class="text-xs text-gray-400 mt-1">Mitigates token theft by binding the token to a device.</p></td><td class="px-4 py-4 text-center align-middle"><span class="cross-icon text-2xl font-bold" title="Not available">❌</span></td><td class="px-4 py-4 text-center align-middle"><span class="check-icon text-2xl font-bold" title="Available">✔️</span></td><td class="px-4 py-4 text-center align-middle"><span class="check-icon text-2xl font-bold" title="Available">✔️</span></td></tr>
+                        <tr><td class="px-4 py-4"><p class="font-medium text-white">Identity Protection (Risk-Based CA)</p><p class="text-xs text-gray-400 mt-1">Automates detection and response to identity risks.</p></td><td class="px-4 py-4 text-center align-middle"><span class="cross-icon text-2xl font-bold" title="Not available">❌</span></td><td class="px-4 py-4 text-center align-middle"><span class="cross-icon text-2xl font-bold" title="Not available">❌</span></td><td class="px-4 py-4 text-center align-middle"><span class="check-icon text-2xl font-bold" title="Available">✔️</span></td></tr>
+                        <tr><td class="px-4 py-4"><p class="font-medium text-white">Privileged Identity Management (PIM)</p><p class="text-xs text-gray-400 mt-1">Provides Just-In-Time (JIT) admin access.</p></td><td class="px-4 py-4 text-center align-middle"><span class="cross-icon text-2xl font-bold" title="Not available">❌</span></td><td class="px-4 py-4 text-center align-middle"><span class="cross-icon text-2xl font-bold" title="Not available">❌</span></td><td class="px-4 py-4 text-center align-middle"><span class="check-icon text-2xl font-bold" title="Available">✔️</span></td></tr>
+                        <tr><td class="px-4 py-4"><p class="font-medium text-white">Access Reviews</p><p class="text-xs text-gray-400 mt-1">Automates review of user access to resources.</p></td><td class="px-4 py-4 text-center align-middle"><span class="cross-icon text-2xl font-bold" title="Not available">❌</span></td><td class="px-4 py-4 text-center align-middle"><span class="cross-icon text-2xl font-bold" title="Not available">❌</span></td><td class="px-4 py-4 text-center align-middle"><span class="check-icon text-2xl font-bold" title="Available">✔️</span></td></tr>
+                        <tr><td class="px-4 py-4"><p class="font-medium text-white">Self-Service Password Reset (SSPR)</p><p class="text-xs text-gray-400 mt-1">Adds password writeback for hybrid identities.</p></td><td class="px-4 py-4 text-center align-middle"><span class="check-icon text-2xl font-bold" title="Cloud-only users">✔️</span></td><td class="px-4 py-4 text-center align-middle"><span class="check-icon text-2xl font-bold" title="Adds password writeback">✔️</span></td><td class="px-4 py-4 text-center align-middle"><span class="check-icon text-2xl font-bold" title="Includes writeback">✔️</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Page Footer -->
+        <footer class="text-center mt-12">
+            <div class="flex justify-center items-center space-x-4 mb-6">
+                 <a href="index.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Home</a>
+                 <a href="demo.html" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Launch Demo</a>
+            </div>
+            <div class="flex justify-center items-center space-x-6 mb-4">
+                <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-400 hover:text-white transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-gray-500"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    View on GitHub
+                </a>
+            </div>
+            <hr class="border-gray-700 w-1/2 mx-auto my-6">
+            <p class="text-sm text-gray-500">AetherCred by Harry Shelton | 2025</p>
+        </footer>
+    </div>
+
+</body>
+</html>
