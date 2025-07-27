@@ -6,7 +6,7 @@
     <title>AetherCred - How to Use</title>
     <link rel="icon" href="https://images.aethercred.co.uk/favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -66,21 +66,30 @@
                         <a href="how-to-use.html" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">How to Use</a>
                         <a href="demo.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Demo</a>
                         <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-300 hover:text-white flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                           GitHub
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            GitHub
                         </a>
                     </div>
                 </div>
                 <div class="-mr-2 flex md:hidden">
-                    <button @click="open = !open" type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700" aria-controls="mobile-menu" aria-expanded="false">
+                    <button @click="open = !open" **@click.stop** type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" :aria-expanded="open.toString()" aria-controls="mobile-menu">
                         <span class="sr-only">Open main menu</span>
-                        <svg :class="{'hidden': open, 'block': !open }" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                        <svg :class="{'block': open, 'hidden': !open }" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                        <svg x-show="!open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        <svg x-show="open" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>
                 </div>
             </div>
         </div>
-        <div x-show="open" @click.away="open = false" class="md:hidden" id="mobile-menu">
+        <div x-show="open"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95"
+             @click.away="open = false"
+             @keydown.escape.window="open = false"
+             class="md:hidden" id="mobile-menu">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                 <a href="index.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
                 <a href="practices.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Best Practices</a>
@@ -93,108 +102,76 @@
         </div>
     </nav>
 
-    <main class="container mx-auto p-4 md:p-10">
+    <div class="container mx-auto p-4 md:p-10">
         <header class="text-center mb-12">
-            <div class="flex justify-center mb-4">
-                <a href="https://aethercred.co.uk/">
-                    <img width="215" height="215" alt="AetherCred Logo" src="https://github.com/user-attachments/assets/cd1e2621-0f1a-45b2-b000-b4d21668d8c7" />
-                </a>
-            </div>
-            <h1 class="text-4xl md:text-5xl font-bold text-white">AetherCred - How to Use</h1>
+            <a href="index.html" class="inline-block">
+                <img src="https://images.aethercred.co.uk/AetherCredLogoCloud.png"
+                    alt="AetherCred Logo"
+                    class="mx-auto h-16 mb-4"
+                    onerror="this.onerror=null;this.src='https://placehold.co/200x56/111827/ffffff?text=AetherCred';">
+            </a>
+            <h1 class="text-5xl font-extrabold text-white tracking-tight">How to Use AetherCred</h1>
+            <p class="text-gray-400 mt-3 text-lg max-w-2xl mx-auto">A step-by-step guide to deploying and utilizing AetherCred for your Microsoft Entra security posture assessment.</p>
         </header>
 
-        <div class="space-y-8 max-w-4xl mx-auto">
+        <section class="mb-16 guide-section">
+            <h2 class="text-2xl font-bold text-white mb-4">Step 1: Get the Script</h2>
+            <p class="text-gray-300 mb-4">The AetherCred script is available on GitHub. You can download it directly or clone the repository.</p>
+            <pre><code>git clone https://github.com/itsharryshelton/AetherCred.git</code></pre>
+            <p class="text-gray-300 mt-4">Alternatively, you can navigate to the <a href="https://github.com/itsharryshelton/AetherCred/releases" target="_blank" class="text-blue-400 hover:underline">releases page</a> and download the latest compiled version or the raw PowerShell script.</p>
+        </section>
 
-            <section class="guide-section">
-                <h2 class="text-2xl font-semibold text-white mb-3">Requirements</h2>
-                <p class="text-gray-300 mb-4">Ensure your environment meets these technical prerequisites before execution:</p>
-                <ul class="list-disc list-inside space-y-2 text-gray-300">
-                    <li><strong>PowerShell 5.1+</strong><br>
-                        (Note: PowerShell 7 is not fully supported for all data collection, particularly Legacy MFA information, due to potential client credential flow limitations).</li>
-                    <li><strong>Microsoft Graph PowerShell SDK</strong><br>
-                        Install via an elevated PowerShell session:
-                        <pre><code>Install-Module Microsoft.Graph -Scope AllUsers</code></pre>
-                        This command installs the necessary modules for Graph API interaction.</li>
+        <section class="mb-16 guide-section">
+            <h2 class="text-2xl font-bold text-white mb-4">Step 2: Grant Permissions</h2>
+            <p class="text-gray-300 mb-4">AetherCred requires specific Microsoft Graph API permissions to fetch the necessary security configurations and user data from your Entra ID tenant. These permissions are the minimum required for the script to function.</p>
+            <div class="bg-gray-700 p-4 rounded-lg">
+                <h3 class="font-semibold text-lg text-white mb-3">Required Microsoft Graph API Permissions:</h3>
+                <ul class="permission-list text-gray-300 list-disc pl-5">
+                    <li><strong>Application.Read.All:</strong> Read all applications without a signed-in user.</li>
+                    <li><strong>Directory.Read.All:</strong> Read all directory data.</li>
+                    <li><strong>Domain.Read.All:</strong> Read domain information.</li>
+                    <li><strong>Group.Read.All:</strong> Read all groups.</li>
+                    <li><strong>Policy.Read.All:</strong> Read all tenant policies.</li>
+                    <li><strong>Report.Read.All:</strong> Read identity and access reports.</li>
+                    <li><strong>User.Read.All:</strong> Read all users' full profiles.</li>
                 </ul>
+            </div>
+            <p class="text-gray-300 mt-4">You can grant these permissions to a **service principal** (recommended for automation) or directly to a **user account** running the script (less secure for regular use). Instructions for both methods are provided below.</p>
+        </section>
 
-                <h3 class="font-semibold text-lg text-gray-300 pt-4">Required Permissions & Administrative Context</h3>
-                <p class="text-gray-300 mb-2">The user account executing `AetherCred-Core.ps1` requires specific Microsoft Graph API permissions. For initial setup and comprehensive data collection, a <strong>Global Administrator</strong> role in Microsoft 365 is recommended, or an account with precisely delegated permissions. The script will request consent for the following permissions if not already granted:</p>
-                <ul class="list-disc list-inside space-y-2 text-gray-300 permission-list">
-                    <li><strong>`Application.ReadWrite.All`</strong>: Required for the script to automatically register the AetherCred application in Entra ID (if it doesn't already exist) and configure its properties, such as redirect URIs and the custom logo.</li>
-                    <li><strong>`Directory.Read.All`</strong>: Provides read access to the entire directory, essential for enumerating users, groups, and other directory objects.</li>
-                    <li><strong>`User.Read.All`</strong>: Enables comprehensive retrieval of user profile data, including enabled status, creation date, and last sign-in. This is crucial for detailed user analysis.</li>
-                    <li><strong>`UserAuthenticationMethod.Read.All`</strong>: Specifically grants access to user authentication methods, allowing for the classification of MFA types (Modern vs. Legacy) and identifying users without registered MFA.</li>
-                    <li><strong>`AuditLog.Read.All`</strong>: Used to fetch audit log data, which can contribute to understanding user activity and identifying potential risks.</li>
-                    <li><strong>`Reports.Read.All`</strong>: Provides access to usage reports and related data, potentially informing insights around user activity and adoption.</li>
-                    <li><strong>`Policy.Read.All`</strong>: Necessary for surfacing Conditional Access policies and other security policies relevant to user security posture.</li>
-                    <li><strong>`Organization.Read.All`</strong>: Allows reading organization-specific details, which might be used for reporting context or tenant-wide information.</li>
-                </ul>
-                <p class="text-gray-300 mt-2"><strong>Note on Permissions:</strong> If you prefer to pre-create the App Registration manually, ensure the application is granted these delegated permissions for the user account that will run the script, and an administrator has granted tenant-wide consent.</p>
-            </section>
+        <section class="mb-16 guide-section">
+            <h2 class="text-2xl font-bold text-white mb-4">Step 3: Run the Script</h2>
+            <p class="text-gray-300 mb-4">Once you have the script and the necessary permissions, you can execute it from PowerShell.</p>
+            <pre><code>.\AetherCred.ps1</code></pre>
+            <p class="text-gray-300 mt-4">The script will prompt you to authenticate. Follow the on-screen instructions to complete the authentication process.</p>
+            <p class="text-gray-300 mt-4">Upon successful execution, AetherCred will generate an HTML report in the same directory as the script, providing a detailed overview of your Entra ID security posture.</p>
+        </section>
 
-            <section class="guide-section">
-                <h2 class="text-2xl font-semibold text-white mb-3">Getting Started</h2>
-                <ol class="list-decimal list-inside space-y-3 text-gray-300">
-                    <li><strong>Download Files:</strong>
-                        Obtain the core script and dashboard template from the official GitHub repository:
-                        <a href="https://github.com/itsharryshelton/AetherCred/tree/main" target="_blank" class="text-blue-400 hover:underline">https://github.com/itsharryshelton/AetherCred/tree/main</a><br>
-                        Download `AetherCred-Core.ps1` (the main execution script) and `AetherCred-Report.html` (the dashboard template). Place both files in the same directory.</li>
-                    <li><strong>Set Up Modules:</strong>
-                        Create a folder named `Modules` in the same directory as `AetherCred-Core.ps1`. This directory will house the supporting PowerShell module scripts for various review types (e.g., `Run-SecurityReview.ps1`, `Run-ConditionalAccessReview.ps1`). Ensure you download these modules from the GitHub `Modules` folder and place them within your local `Modules` directory.</li>
-                    <li><strong>Run the Script:</strong>
-                        Open a PowerShell 5.1 console (or compatible environments like VS Code with PowerShell extension, or PowerShell ISE). Navigate to the directory where you saved the files and execute the core script:
-                        <pre><code>.\AetherCred-Core.ps1</code></pre>
-                    </li>
-                    <li><strong>Authentication Process:</strong>
-                        Upon execution, a Microsoft Graph sign-in window will appear. Authenticate with a privileged account. The script will automatically attempt to register an Entra ID Application named "AetherCred" and assign the necessary API permissions if it doesn't exist. You may be prompted to consent to these permissions.
-                        <p class="text-gray-300 mt-2"><strong>Authentication Flow:</strong> AetherCred primarily uses an App Registration authentication flow that enables the collection of all required data. However, some legacy MFA details may not be fully accessible via App credential flow alone. While the script can leverage an App Registration, direct user authentication ensures full data fidelity.</p>
-                        <p class="text-gray-300 mt-2"><strong>Troubleshooting Authentication:</strong> If you encounter permission-related errors during execution, ensure the account you're using has the necessary administrative roles (e.g., Global Administrator) or that the required API permissions have been explicitly granted and consented to for the application in your Entra ID tenant.</p>
-                    </li>
-                    <li><strong>Selecting Your Review:</strong>
-                        After successful authentication, the script will present an interactive menu in your PowerShell console, allowing you to choose which reviews to run. This provides flexibility for focused analysis or a comprehensive report.
-                        <pre><code>=====================================
-  AetherCred - Tenant Review Menu
-=====================================
-1: Security Review
-2: Conditional Access Review
-3: Licensing Review
-A: Run ALL Reviews
-Q: Quit
--------------------------------------
+        <section class="mb-16 guide-section">
+            <h2 class="text-2xl font-bold text-white mb-4">Step 4: Analyze the Report</h2>
+            <p class="text-gray-300 mb-4">The generated HTML report is designed to be easily digestible, highlighting critical vulnerabilities and providing actionable remediation steps.</p>
+            <ul class="list-disc pl-5 text-gray-300 space-y-2">
+                <li>Review the **User Risk Score** for individual accounts to prioritize remediation efforts.</li>
+                <li>Examine the **Core Security Recommendations** section for a high-level overview of best practices.</li>
+                <li>Utilize the **Remediation Guides** (available on this website) to fix identified issues.</li>
+            </ul>
+        </section>
 
-Please select an option:</code></pre>
-                        To select an option, simply type the corresponding number or letter (e.g., `1` for Security Review, `A` for all reviews, `Q` to quit) and press Enter.
-                    </li>
-                    <li><strong>View the Report:</strong>
-                        Once data collection and processing are complete for your selected review(s), the script will automatically generate the data files (`.js`, `.csv`) and launch the `AetherCred-Report.html` dashboard in your default web browser.</li>
-                </ol>
-            </section>
-
-            <section class="guide-section">
-                <h2 class="text-2xl font-semibold text-white mb-3">Data Security</h2>
-                <p class="text-gray-300 mb-2">AetherCred is built with security and privacy in mind. Your tenant data is never transmitted to any third-party service at any point in the workflow.</p>
-                <h3 class="font-semibold text-lg text-gray-300 pt-2">Key Principles</h3>
-                <ul class="list-disc list-inside space-y-2 text-gray-300">
-                    <li><strong>No External Data Transfer</strong><br>
-                        All data collected from Microsoft Graph stays <strong>local</strong> to your environment. The tool does not upload, sync, or transmit any information to external servers or APIs.</li>
-                    <li><strong>Offline Report Generation</strong><br>
-                        The HTML dashboard and all generated files (.js, .csv, .pdf) run entirely <strong>in your browser</strong>. No internet connection is required after initial data collection.</li>
-                    <li><strong>Client-Side PDF Export</strong><br>
-                        PDF reports are generated using client-side JavaScript libraries (jsPDF, autotable). Nothing is sent to any cloud service or external processor.</li>
-                    <li><strong>Controlled Permissions</strong><br>
-                        When using App Registration, you define exactly which Microsoft Graph permissions are granted, enabling compliance with the principle of least privilege.</li>
-                    <li><strong>No Data Retention</strong><br>
-                        AetherCred does not log or retain any data beyond what is saved explicitly by the user as output files (.csv, .js, .pdf).</li>
-                </ul>
-                <p class="text-gray-300 mt-2">By design, AetherCred operates as a <strong>self-contained and auditable</strong> security reporting tool, suitable for both internal audits and external compliance reporting workflows.</p>
-            </section>
-
-        </div>
-
-        <footer class="text-center mt-16 border-t border-gray-800 pt-8">
+        <footer class="text-center mt-12">
+            <div class="flex justify-center items-center space-x-4 mb-6">
+                <a href="index.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Home</a>
+                <a href="demo.html" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Launch Demo</a>
+            </div>
+            <div class="flex justify-center items-center space-x-6 mb-4">
+                <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-400 hover:text-white transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-gray-500"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    View on GitHub
+                </a>
+            </div>
+            <hr class="border-gray-700 w-1/2 mx-auto my-6">
             <p class="text-sm text-gray-500">AetherCred by Harry Shelton | 2025</p>
         </footer>
-    </main>
+    </div>
 
 </body>
 </html>
