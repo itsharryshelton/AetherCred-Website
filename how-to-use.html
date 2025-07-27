@@ -11,8 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
+        body {
+            font-family: 'Inter', sans-serif;
         }
         .guide-section {
             background-color: #1f2937; /* bg-gray-800 */
@@ -38,21 +38,25 @@
             border-radius: 0.25rem;
             font-size: 0.9em;
         }
+        /* Style for the permission list */
+        .permission-list li {
+            margin-bottom: 0.5rem;
+        }
+        .permission-list strong {
+            color: #60a5fa; /* A subtle blue for emphasis */
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-200 antialiased">
 
-    <!-- Navigation Bar -->
     <nav x-data="{ open: false }" class="bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <!-- Logo -->
                 <div class="flex-shrink-0">
                     <a href="index.html">
                         <img class="h-8 w-auto" src="https://images.aethercred.co.uk/AetherCredLogoCloud.png" alt="AetherCred Logo" onerror="this.onerror=null;this.src='https://placehold.co/130x32/1f2937/ffffff?text=AetherCred';">
                     </a>
                 </div>
-                <!-- Desktop Menu -->
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <a href="index.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
@@ -67,7 +71,6 @@
                         </a>
                     </div>
                 </div>
-                <!-- Mobile Menu Button -->
                 <div class="-mr-2 flex md:hidden">
                     <button @click="open = !open" type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700" aria-controls="mobile-menu" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>
@@ -77,7 +80,6 @@
                 </div>
             </div>
         </div>
-        <!-- Mobile Menu -->
         <div x-show="open" @click.away="open = false" class="md:hidden" id="mobile-menu">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                 <a href="index.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
@@ -90,107 +92,105 @@
             </div>
         </div>
     </nav>
-    
+
     <main class="container mx-auto p-4 md:p-10">
-        <!-- Page Header -->
         <header class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-white">How to Use AetherCred</h1>
-            <p class="text-gray-400 mt-3 text-lg max-w-3xl mx-auto">A guide to setting up and running the AetherCred security posture dashboard.</p>
+            <div class="flex justify-center mb-4">
+                <a href="https://aethercred.co.uk/">
+                    <img width="215" height="215" alt="AetherCred Logo" src="https://github.com/user-attachments/assets/cd1e2621-0f1a-45b2-b000-b4d21668d8c7" />
+                </a>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white">AetherCred - How to Use</h1>
         </header>
 
         <div class="space-y-8 max-w-4xl mx-auto">
 
-            <!-- Introduction -->
             <section class="guide-section">
-                <h2 class="text-2xl font-semibold text-blue-400 mb-3">Overview</h2>
-                <p class="text-gray-300">AetherCred is a PowerShell and HTML-based tool designed to provide a clear and actionable overview of your Microsoft Entra ID security posture. It gathers detailed information about users, their MFA status, roles, and other security-related attributes, then presents it in an intuitive, searchable, and exportable web dashboard.</p>
-                <p class="text-gray-300 mt-2">This tool allows for quick and easy report generating that can be easily shared with non-technical customers to help them better understand their security posture within their Entra estate.</p>
-            </section>
-
-            <!-- Key Features -->
-            <section class="guide-section">
-                <h2 class="text-2xl font-semibold text-white mb-3">Key Features</h2>
+                <h2 class="text-2xl font-semibold text-white mb-3">Requirements</h2>
+                <p class="text-gray-300 mb-4">Ensure your environment meets these technical prerequisites before execution:</p>
                 <ul class="list-disc list-inside space-y-2 text-gray-300">
-                    <li><strong>Comprehensive User Analysis:</strong> Gathers data on all users, including their enabled status, creation date, last sign-in, and password policies.</li>
-                    <li><strong>Detailed MFA Reporting:</strong> Differentiates between Modern MFA (Passwordless, Authenticator App, FIDO2) and Legacy MFA (SMS, Voice, TOTP).</li>
-                    <li><strong>Security Scoring:</strong> Assigns each user a security score from 0-100 based on critical risk factors.</li>
-                    <li><strong>Risk Flagging:</strong> Automatically flags potential security risks such as "MFA Not Registered," "Password Expiry Enabled," and "Never Signed In."</li>
-                    <li><strong>Privileged Role Identification:</strong> Highlights users with high-impact administrative roles.</li>
-                    <li><strong>Interactive Web Dashboard:</strong> Features a clean, dark-mode interface with at-a-glance summary cards and a searchable, sortable data table.</li>
-                    <li><strong>Multiple Export Options:</strong> Generate a branded PDF report directly from the dashboard or use the automatically generated CSV file for analysis in other tools.</li>
+                    <li><strong>PowerShell 5.1+</strong><br>
+                        (Note: PowerShell 7 is not fully supported for all data collection, particularly Legacy MFA information, due to potential client credential flow limitations).</li>
+                    <li><strong>Microsoft Graph PowerShell SDK</strong><br>
+                        Install via an elevated PowerShell session:
+                        <pre><code>Install-Module Microsoft.Graph -Scope AllUsers</code></pre>
+                        This command installs the necessary modules for Graph API interaction.</li>
                 </ul>
+
+                <h3 class="font-semibold text-lg text-gray-300 pt-4">Required Permissions & Administrative Context</h3>
+                <p class="text-gray-300 mb-2">The user account executing `AetherCred-Core.ps1` requires specific Microsoft Graph API permissions. For initial setup and comprehensive data collection, a <strong>Global Administrator</strong> role in Microsoft 365 is recommended, or an account with precisely delegated permissions. The script will request consent for the following permissions if not already granted:</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-300 permission-list">
+                    <li><strong>`Application.ReadWrite.All`</strong>: Required for the script to automatically register the AetherCred application in Entra ID (if it doesn't already exist) and configure its properties, such as redirect URIs and the custom logo.</li>
+                    <li><strong>`Directory.Read.All`</strong>: Provides read access to the entire directory, essential for enumerating users, groups, and other directory objects.</li>
+                    <li><strong>`User.Read.All`</strong>: Enables comprehensive retrieval of user profile data, including enabled status, creation date, and last sign-in. This is crucial for detailed user analysis.</li>
+                    <li><strong>`UserAuthenticationMethod.Read.All`</strong>: Specifically grants access to user authentication methods, allowing for the classification of MFA types (Modern vs. Legacy) and identifying users without registered MFA.</li>
+                    <li><strong>`AuditLog.Read.All`</strong>: Used to fetch audit log data, which can contribute to understanding user activity and identifying potential risks.</li>
+                    <li><strong>`Reports.Read.All`</strong>: Provides access to usage reports and related data, potentially informing insights around user activity and adoption.</li>
+                    <li><strong>`Policy.Read.All`</strong>: Necessary for surfacing Conditional Access policies and other security policies relevant to user security posture.</li>
+                    <li><strong>`Organization.Read.All`</strong>: Allows reading organization-specific details, which might be used for reporting context or tenant-wide information.</li>
+                </ul>
+                <p class="text-gray-300 mt-2"><strong>Note on Permissions:</strong> If you prefer to pre-create the App Registration manually, ensure the application is granted these delegated permissions for the user account that will run the script, and an administrator has granted tenant-wide consent.</p>
             </section>
 
-            <!-- Prerequisites -->
             <section class="guide-section">
-                <h2 class="text-2xl font-semibold text-white mb-3">Prerequisites</h2>
-                <ol class="list-decimal list-inside space-y-2 text-gray-300">
-                    <li><strong>PowerShell:</strong> Version 5.1 or higher.</li>
-                    <li><strong>Microsoft Graph PowerShell SDK:</strong> If not installed, run this command in PowerShell as an administrator:
-                        <pre>Install-Module Microsoft.Graph -Scope AllUsers</pre>
-                    </li>
-                    <li><strong>Required Permissions:</strong> The user running the script needs consent for the following Microsoft Graph API scopes: `Application.ReadWrite.All`, `Directory.Read.All`, `User.Read.All`, `UserAuthenticationMethod.Read.All`, `AuditLog.Read.All`, `Reports.Read.All`.</li>
-                </ol>
-            </section>
-
-            <!-- Setup & Usage -->
-            <section class="guide-section">
-                <h2 class="text-2xl font-semibold text-white mb-3">Setup & Usage</h2>
+                <h2 class="text-2xl font-semibold text-white mb-3">Getting Started</h2>
                 <ol class="list-decimal list-inside space-y-3 text-gray-300">
-                    <li><strong>Download Files:</strong> Place `AetherCred.ps1`, `AetherCred-Dashboard.html`, `AetherCredLogoCloud.png`, and `favicon.ico` into the same folder.</li>
-                    <li><strong>Run the Script:</strong> Open PowerShell, navigate to the folder, and execute the script:
-                        <pre>.\AetherCred.ps1</pre>
+                    <li><strong>Download Files:</strong>
+                        Obtain the core script and dashboard template from the official GitHub repository:
+                        <a href="https://github.com/itsharryshelton/AetherCred/tree/main" target="_blank" class="text-blue-400 hover:underline">https://github.com/itsharryshelton/AetherCred/tree/main</a><br>
+                        Download `AetherCred-Core.ps1` (the main execution script) and `AetherCred-Report.html` (the dashboard template). Place both files in the same directory.</li>
+                    <li><strong>Set Up Modules:</strong>
+                        Create a folder named `Modules` in the same directory as `AetherCred-Core.ps1`. This directory will house the supporting PowerShell module scripts for various review types (e.g., `Run-SecurityReview.ps1`, `Run-ConditionalAccessReview.ps1`). Ensure you download these modules from the GitHub `Modules` folder and place them within your local `Modules` directory.</li>
+                    <li><strong>Run the Script:</strong>
+                        Open a PowerShell 5.1 console (or compatible environments like VS Code with PowerShell extension, or PowerShell ISE). Navigate to the directory where you saved the files and execute the core script:
+                        <pre><code>.\AetherCred-Core.ps1</code></pre>
                     </li>
-                    <li><strong>Authenticate:</strong> A Microsoft Graph sign-in window will appear. Sign in with a privileged account. You may be asked to consent to the required API permissions.</li>
-                    <li><strong>View the Report:</strong> Once finished, the script automatically generates the data files and launches the HTML dashboard in your default browser.</li>
-                </ol>
-            </section>
-            
-            <!-- How It Works -->
-            <section class="guide-section">
-                <h2 class="text-2xl font-semibold text-white mb-3">How It Works</h2>
-                <p class="text-gray-300 mb-2">The project is split into two main parts:</p>
-                <ul class="list-disc list-inside space-y-2 text-gray-300">
-                    <li><strong>Data Collection (PowerShell):</strong> The <code>AetherCred.ps1</code> script connects to the Microsoft Graph API to fetch all relevant data. It processes this information, calculates scores, and then exports the final dataset into a <code>.js</code> file for the web dashboard and a <code>.csv</code> file for external use.</li>
-                    <li><strong>Data Visualisation (HTML/JavaScript):</strong> The <code>AetherCred-Dashboard.html</code> file uses the generated <code>.js</code> file as its data source. It uses JavaScript to dynamically build the summary cards and the main data table, providing an interactive user experience without needing a web server.</li>
-                </ul>
-            </section>
+                    <li><strong>Authentication Process:</strong>
+                        Upon execution, a Microsoft Graph sign-in window will appear. Authenticate with a privileged account. The script will automatically attempt to register an Entra ID Application named "AetherCred" and assign the necessary API permissions if it doesn't exist. You may be prompted to consent to these permissions.
+                        <p class="text-gray-300 mt-2"><strong>Authentication Flow:</strong> AetherCred primarily uses an App Registration authentication flow that enables the collection of all required data. However, some legacy MFA details may not be fully accessible via App credential flow alone. While the script can leverage an App Registration, direct user authentication ensures full data fidelity.</p>
+                        <p class="text-gray-300 mt-2"><strong>Troubleshooting Authentication:</strong> If you encounter permission-related errors during execution, ensure the account you're using has the necessary administrative roles (e.g., Global Administrator) or that the required API permissions have been explicitly granted and consented to for the application in your Entra ID tenant.</p>
+                    </li>
+                    <li><strong>Selecting Your Review:</strong>
+                        After successful authentication, the script will present an interactive menu in your PowerShell console, allowing you to choose which reviews to run. This provides flexibility for focused analysis or a comprehensive report.
+                        <pre><code>=====================================
+  AetherCred - Tenant Review Menu
+=====================================
+1: Security Review
+2: Conditional Access Review
+3: Licensing Review
+A: Run ALL Reviews
+Q: Quit
+-------------------------------------
 
-            <!-- Customisation -->
-            <section class="guide-section">
-                <h2 class="text-2xl font-semibold text-white mb-3">Customisation</h2>
-                <h3 class="font-semibold text-lg text-gray-300 pt-2">PowerShell Script (`AetherCred.ps1`)</h3>
-                <p class="text-gray-400 mb-2">You can customise the Application details by modifying the variables at the top of the script:</p>
-                <pre># SCRIPT CONFIGURATION
-$AppName = "AetherCred"
-$LogoFileName = "AetherCredLogoCloud.png"
-$HomePageURL = "https://github.com/itsharryshelton"</pre>
-                
-                <h3 class="font-semibold text-lg text-gray-300 pt-4">Dashboard (`AetherCred-Dashboard.html`)</h3>
-                <p class="text-gray-400 mb-2">To ensure your logo appears correctly on PDF exports, you must update the hidden `<img>` tag in the HTML file.</p>
-                <ol class="list-decimal list-inside space-y-2 text-gray-300">
-                    <li>Convert your logo image to a Base64 string using a free online tool.</li>
-                    <li>Open <code>AetherCred-Dashboard.html</code> in a text editor.</li>
-                    <li>Find the line: <code>&lt;img id="logo-for-pdf" src="" ... &gt;</code></li>
-                    <li>Paste your Base64 string inside the <code>src=""</code> attribute.</li>
+Please select an option:</code></pre>
+                        To select an option, simply type the corresponding number or letter (e.g., `1` for Security Review, `A` for all reviews, `Q` to quit) and press Enter.
+                    </li>
+                    <li><strong>View the Report:</strong>
+                        Once data collection and processing are complete for your selected review(s), the script will automatically generate the data files (`.js`, `.csv`) and launch the `AetherCred-Report.html` dashboard in your default web browser.</li>
                 </ol>
             </section>
 
-            <!-- Roadmap -->
             <section class="guide-section">
-                <h2 class="text-2xl font-semibold text-white mb-3">Roadmap</h2>
-                <p class="text-gray-400 mb-4">Future enhancements are planned to make AetherCred even more valuable. Contributions and suggestions are always welcome!</p>
+                <h2 class="text-2xl font-semibold text-white mb-3">Data Security</h2>
+                <p class="text-gray-300 mb-2">AetherCred is built with security and privacy in mind. Your tenant data is never transmitted to any third-party service at any point in the workflow.</p>
+                <h3 class="font-semibold text-lg text-gray-300 pt-2">Key Principles</h3>
                 <ul class="list-disc list-inside space-y-2 text-gray-300">
-                    <li><strong>Enhanced Scoring System:</strong> Introduce more granular scoring based on MFA types and user risk levels from Entra ID Protection.</li>
-                    <li><strong>Historical Data & Trend Analysis:</strong> Add a "Trends" tab to visualise security posture improvements over time.</li>
-                    <li><strong>Deeper Risk Analysis:</strong> Integrate with Entra ID Protection to flag risky users and check for stale privileged accounts.</li>
-                    <li><strong>Improved Dashboard Interactivity:</strong> Add advanced filtering, column sorting, and a light/dark mode toggle.</li>
+                    <li><strong>No External Data Transfer</strong><br>
+                        All data collected from Microsoft Graph stays <strong>local</strong> to your environment. The tool does not upload, sync, or transmit any information to external servers or APIs.</li>
+                    <li><strong>Offline Report Generation</strong><br>
+                        The HTML dashboard and all generated files (.js, .csv, .pdf) run entirely <strong>in your browser</strong>. No internet connection is required after initial data collection.</li>
+                    <li><strong>Client-Side PDF Export</strong><br>
+                        PDF reports are generated using client-side JavaScript libraries (jsPDF, autotable). Nothing is sent to any cloud service or external processor.</li>
+                    <li><strong>Controlled Permissions</strong><br>
+                        When using App Registration, you define exactly which Microsoft Graph permissions are granted, enabling compliance with the principle of least privilege.</li>
+                    <li><strong>No Data Retention</strong><br>
+                        AetherCred does not log or retain any data beyond what is saved explicitly by the user as output files (.csv, .js, .pdf).</li>
                 </ul>
+                <p class="text-gray-300 mt-2">By design, AetherCred operates as a <strong>self-contained and auditable</strong> security reporting tool, suitable for both internal audits and external compliance reporting workflows.</p>
             </section>
 
         </div>
 
-        <!-- Page Footer -->
         <footer class="text-center mt-16 border-t border-gray-800 pt-8">
             <p class="text-sm text-gray-500">AetherCred by Harry Shelton | 2025</p>
         </footer>
