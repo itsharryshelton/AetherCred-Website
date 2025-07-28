@@ -38,12 +38,27 @@
             border-radius: 0.25rem;
             font-size: 0.9em;
         }
-        /* Style for the permission list */
-        .permission-list li {
-            margin-bottom: 0.5rem;
+        .step-list {
+            list-style-type: decimal;
+            margin-left: 1.5rem;
         }
-        .permission-list strong {
-            color: #60a5fa; /* A subtle blue for emphasis */
+        .step-list li, .perm-list li {
+            margin-bottom: 0.75rem;
+        }
+        .step-list code {
+            font-size: 0.85em;
+        }
+        .tab-button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            background-color: #374151; /* bg-gray-600 */
+            transition: background-color 0.2s;
+            border: 1px solid #4b5563; /* border-gray-500 */
+        }
+        .tab-button-active {
+            background-color: #3b82f6; /* bg-blue-600 */
+            color: white;
+            border-color: #3b82f6;
         }
     </style>
 </head>
@@ -52,124 +67,120 @@
     <nav x-data="{ open: false }" class="bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0">
-                    <a href="index.html">
-                        <img class="h-8 w-auto" src="https://images.aethercred.co.uk/AetherCredLogoCloud.png" alt="AetherCred Logo" onerror="this.onerror=null;this.src='https://placehold.co/130x32/1f2937/ffffff?text=AetherCred';">
-                    </a>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="index.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                        <a href="practices.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Best Practices</a>
-                        <a href="msp.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">For MSPs</a>
-                        <a href="remediation.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Remediation Guides</a>
-                        <a href="how-to-use.html" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">How to Use</a>
-                        <a href="demo.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Demo</a>
-                        <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-300 hover:text-white flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                            GitHub
-                        </a>
-                    </div>
-                </div>
-                <div class="-mr-2 flex md:hidden">
-                    <button @click="open = !open" **@click.stop** type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" :aria-expanded="open.toString()" aria-controls="mobile-menu">
-                        <span class="sr-only">Open main menu</span>
-                        <svg x-show="!open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                        <svg x-show="open" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                    </button>
-                </div>
+                <div class="flex-shrink-0"><a href="index.html"><img class="h-8 w-auto" src="https://images.aethercred.co.uk/AetherCredLogoCloud.png" alt="AetherCred Logo" onerror="this.onerror=null;this.src='https://placehold.co/130x32/1f2937/ffffff?text=AetherCred';"></a></div>
+                <div class="hidden md:block"><div class="ml-10 flex items-baseline space-x-4"><a href="index.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a><a href="practices.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Best Practices</a><a href="msp.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">For MSPs</a><a href="remediation.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Remediation Guides</a><a href="how-to-use.html" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">How to Use</a><a href="demo.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Demo</a><a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-300 hover:text-white flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg> GitHub</a></div></div>
+                <div class="-mr-2 flex md:hidden"><button @click="open = !open" type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" :aria-expanded="open.toString()" aria-controls="mobile-menu"><span class="sr-only">Open main menu</span><svg x-show="!open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg><svg x-show="open" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button></div>
             </div>
         </div>
-        <div x-show="open"
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-150"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95"
-             @click.away="open = false"
-             @keydown.escape.window="open = false"
-             class="md:hidden" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="index.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
-                <a href="practices.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Best Practices</a>
-                <a href="msp.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">For MSPs</a>
-                <a href="remediation.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Remediation Guides</a>
-                <a href="how-to-use.html" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">How to Use</a>
-                <a href="demo.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Demo</a>
-                <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">GitHub</a>
-            </div>
-        </div>
+        <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" @click.away="open = false" @keydown.escape.window="open = false" class="md:hidden" id="mobile-menu"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3"><a href="index.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a><a href="practices.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Best Practices</a><a href="msp.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">For MSPs</a><a href="remediation.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Remediation Guides</a><a href="how-to-use.html" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">How to Use</a><a href="demo.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Demo</a><a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">GitHub</a></div></div>
     </nav>
 
     <div class="container mx-auto p-4 md:p-10">
         <header class="text-center mb-12">
             <a href="index.html" class="inline-block">
                 <img src="https://images.aethercred.co.uk/AetherCredLogoCloud.png"
-                    alt="AetherCred Logo"
-                    class="mx-auto h-16 mb-4"
-                    onerror="this.onerror=null;this.src='https://placehold.co/200x56/111827/ffffff?text=AetherCred';">
+                     alt="AetherCred Logo"
+                     class="mx-auto h-16 mb-4"
+                     onerror="this.onerror=null;this.src='https://placehold.co/200x56/111827/ffffff?text=AetherCred';">
             </a>
             <h1 class="text-5xl font-extrabold text-white tracking-tight">How to Use AetherCred</h1>
-            <p class="text-gray-400 mt-3 text-lg max-w-2xl mx-auto">A step-by-step guide to deploying and utilizing AetherCred for your Microsoft Entra security posture assessment.</p>
+            <p class="text-gray-400 mt-3 text-lg max-w-2xl mx-auto">A step-by-step guide to deploying and running your Entra security posture assessment.</p>
         </header>
 
-        <section class="mb-16 guide-section">
-            <h2 class="text-2xl font-bold text-white mb-4">Step 1: Get the Script</h2>
-            <p class="text-gray-300 mb-4">The AetherCred script is available on GitHub. You can download it directly or clone the repository.</p>
-            <pre><code>git clone https://github.com/itsharryshelton/AetherCred.git</code></pre>
-            <p class="text-gray-300 mt-4">Alternatively, you can navigate to the <a href="https://github.com/itsharryshelton/AetherCred/releases" target="_blank" class="text-blue-400 hover:underline">releases page</a> and download the latest version.</p>
+        <section class="mb-10 guide-section">
+            <h2 class="text-2xl font-bold text-white mb-4">⚙️ Prerequisites: Install PowerShell Modules</h2>
+            <p class="text-gray-300 mb-4">Before you begin, ensure you have the necessary PowerShell modules to interact with Microsoft Graph. Open PowerShell as an administrator and run these commands:</p>
+            <pre>Install-Module Microsoft.Graph -Scope AllUsers -Force
+Install-Module Microsoft.Graph.Beta -Scope CurrentUser -Force</pre>
+            <p class="text-gray-300 mt-4">These modules are required for the scripts to communicate correctly with your Microsoft Entra ID tenant.</p>
         </section>
 
-        <section class="mb-16 guide-section">
-            <h2 class="text-2xl font-bold text-white mb-4">Step 2: Grant Permissions</h2>
-            <p class="text-gray-300 mb-4">AetherCred requires specific Microsoft Graph API permissions to fetch the necessary security configurations and user data from your Entra ID tenant. These permissions are the minimum required for the script to function.</p>
-            <div class="bg-gray-700 p-4 rounded-lg">
-                <h3 class="font-semibold text-lg text-white mb-3">Required Microsoft Graph API Permissions:</h3>
-                <ul class="permission-list text-gray-300 list-disc pl-5">
-                    <li><strong>Application.Read.All:</strong> Read all applications without a signed-in user.</li>
-                    <li><strong>Directory.Read.All:</strong> Read all directory data.</li>
-                    <li><strong>Domain.Read.All:</strong> Read domain information.</li>
-                    <li><strong>Group.Read.All:</strong> Read all groups.</li>
-                    <li><strong>Policy.Read.All:</strong> Read all tenant policies.</li>
-                    <li><strong>Report.Read.All:</strong> Read identity and access reports.</li>
-                    <li><strong>User.Read.All:</strong> Read all users' full profiles.</li>
-                </ul>
+        <section class="mb-10 guide-section" x-data="{ tab: 'script' }">
+            <h2 class="text-2xl font-bold text-white mb-4">Step 1: Create the Entra Application</h2>
+            <div class="flex space-x-2 mb-4">
+                <button @click="tab = 'script'" :class="{ 'tab-button-active': tab === 'script' }" class="tab-button">✅ Recommended: Use Script</button>
+                <button @click="tab = 'manual'" :class="{ 'tab-button-active': tab === 'manual' }" class="tab-button">🖐️ Manual Method</button>
             </div>
-            <p class="text-gray-300 mt-4">You can grant these permissions to a **service principal** (recommended for automation) or directly to a **user account** running the script (less secure for regular use). Instructions for both methods are provided below.</p>
+
+            <div x-show="tab === 'script'">
+                <p class="text-gray-300 mb-4">We've included a script to automate the creation of the required App Registration in Entra ID. Run this from the project folder. You will need to sign in with an account that has at least the <strong>Application Administrator</strong> role.</p>
+                <pre>.\AetherCred-CreateApplication.ps1</pre>
+                <p class="text-gray-300 mt-4">The script will create the application with the correct API permissions requested. Once finished, it will output the <strong>Tenant ID</strong> and <strong>Application (Client) ID</strong>. <strong class="text-yellow-400">Copy these two values—you'll need them for the config file.</strong></p>
+                <p class="text-gray-300 mt-4">After the script finishes, continue to <strong>Step 2</strong> to grant consent and create the secret.</p>
+            </div>
+
+            <div x-show="tab === 'manual'" style="display: none;">
+                <p class="text-gray-300 mb-4">If you prefer or need to create the application manually, follow these steps in the Microsoft Entra admin center.</p>
+                <ol class="step-list text-gray-300 mt-4 space-y-4">
+                    <li>
+                        <strong>Register a new application:</strong><br>
+                        - Navigate to <a href="https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade" target="_blank" class="text-blue-400 hover:underline">App registrations</a> and click <strong>+ New registration</strong>.<br>
+                        - Name: <code>AetherCred</code><br>
+                        - Supported account types: <strong>Accounts in this organizational directory only</strong>.<br>
+                        - Leave Redirect URI blank and click <strong>Register</strong>.
+                    </li>
+                    <li>
+                        <strong>Copy Identifiers:</strong><br>
+                        On the app's Overview page, copy the <strong>Application (client) ID</strong> and <strong>Directory (tenant) ID</strong>. Save these for the config file.
+                    </li>
+                    <li>
+                        <strong>Add API Permissions:</strong><br>
+                        - Go to the <strong>API permissions</strong> blade and click <strong>+ Add a permission</strong>, then select <strong>Microsoft Graph</strong>.<br>
+                        - Select <strong>Application permissions</strong>. Add and check the box for each of the following:
+                        <ul class="perm-list list-disc pl-5 mt-2 text-gray-400">
+                            <li><code>Application.Read.All</code></li>
+                            <li><code>AuditLog.Read.All</code></li>
+                            <li><code>Directory.Read.All</code></li>
+                            <li><code>Domain.Read.All</code></li>
+                            <li><code>Organization.Read.All</code></li>
+                            <li><code>Policy.Read.All</code></li>
+                            <li><code>Reports.Read.All</code></li>
+                            <li><code>User.Read.All</code></li>
+                            <li><code>UserAuthenticationMethod.Read.All</code></li>
+                        </ul>
+
+                     <li>
+                        <strong>(Optional) Add Branding:</strong><br>
+                        - Go to the <strong>Branding & properties</strong> blade.<br>
+                        - Set the Home page URL to: <code>https://aethercred.co.uk/</code><br>
+                        - You can download the logo from <a href="https://images.aethercred.co.uk/AetherCredLogoCloudEntraSize.png" target="_blank" class="text-blue-400 hover:underline">this link</a> and upload it.
+                    </li>
+                </ol>
+                 <p class="text-gray-300 mt-4">Once you have manually created the app, continue to <strong>Step 2</strong>.</p>
+            </div>
         </section>
 
-        <section class="mb-16 guide-section">
-            <h2 class="text-2xl font-bold text-white mb-4">Step 3: Run the Script</h2>
-            <p class="text-gray-300 mb-4">Once you have the script and the necessary permissions, you can execute it from PowerShell.</p>
-            <pre><code>.\AetherCred-Core.ps1</code></pre>
-            <p class="text-gray-300 mt-4">The script will prompt you to authenticate. Follow the on-screen instructions to complete the authentication process.</p>
-            <p class="text-gray-300 mt-4">Upon successful execution, AetherCred will generate an HTML report in the same directory as the script, providing a detailed overview of your Entra ID security posture.</p>
-            <p class="text-gray-300 mt-4">Make sure you have the AetherCred-Report.html and /Modules folder in the same script location.</p>
-            <p class="text-gray-300 mt-4">Recommend that you use Visual Studio Code to run the code, sometimes the auth token doesn't work well within standard terminal session.</p>
+        <section class="mb-10 guide-section">
+            <h2 class="text-2xl font-bold text-white mb-4">Step 2: Grant Consent and Create a Client Secret</h2>
+            <p class="text-gray-300 mb-4">This is a manual step that must be completed in the Microsoft Entra admin center. It grants the permissions your new application requested and creates a password for it to use.</p>
+            <ol class="step-list text-gray-300 mt-4 space-y-3">
+                <li>Navigate to the <a href="https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade" target="_blank" class="text-blue-400 hover:underline">Microsoft Entra admin center > App registrations</a> and find the <strong>AetherCred</strong> application.</li>
+                <li>Go to the <strong>API permissions</strong> blade and click the <code class="bg-blue-600 text-white">Grant admin consent for [Your Tenant]</code> button. Click "Yes" to confirm. The status for all permissions should turn to green ticks.</li>
+                <li>Go to the <strong>Certificates & secrets</strong> blade. Click <code class="bg-gray-600">+ New client secret</code>, give it a description (e.g., "AetherCredSecret"), set the expiry, and click "Add".</li>
+                <li><strong class="text-red-500">CRITICAL:</strong> Immediately copy the <strong>Value</strong> of the new secret. It will disappear forever once you leave the page.</li>
+            </ol>
         </section>
 
-        <section class="mb-16 guide-section">
-            <h2 class="text-2xl font-bold text-white mb-4">Step 4: Analyse the Report</h2>
-            <p class="text-gray-300 mb-4">The generated HTML report is designed to be easily digestible, highlighting critical vulnerabilities and providing actionable remediation steps.</p>
-            <ul class="list-disc pl-5 text-gray-300 space-y-2">
-                <li>Review the <strong>User Risk Score</strong> for individual accounts to prioritize remediation efforts.</li>
-                <li>Examine the <strong>Core Security Recommendations</strong> section for a high-level overview of best practices.</li>
-                <li>Utilize the <strong>Remediation Guides</strong> (available on this website) to fix identified issues.</li>
-            </ul>
+        <section class="mb-10 guide-section">
+            <h2 class="text-2xl font-bold text-white mb-4">📝 Step 3: Update the Configuration File</h2>
+            <p class="text-gray-300 mb-4">Now, connect the main script to your new Entra application. Open the <code>AetherCred.config</code> file in a text editor.</p>
+             <p class="text-gray-300 mb-4">Fill in the three values you collected in the previous steps:</p>
+            <pre>AETHERCRED_APP_ID=UPDATEME
+AETHERCRED_TENANT_ID=UPDATEME
+AETHERCRED_CLIENT_SECRET=UPDATEME</pre>
+            <p class="text-gray-300 mt-4">Save and close the file.</p>
+        </section>
+        
+        <section class="mb-10 guide-section">
+            <h2 class="text-2xl font-bold text-white mb-4">🚀 Step 4: Run AetherCred!</h2>
+            <p class="text-gray-300 mb-4">Everything is configured! You can now run the main script to start the security analysis.</p>
+            <pre>.\AetherCred-Core.ps1</pre>
+            <p class="text-gray-300 mt-4">The script will use the details from the config file to authenticate non-interactively and generate the HTML security report in the same folder.</p>
         </section>
 
         <footer class="text-center mt-12">
-            <div class="flex justify-center items-center space-x-4 mb-6">
-                <a href="index.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Home</a>
-                <a href="demo.html" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Launch Demo</a>
-            </div>
-            <div class="flex justify-center items-center space-x-6 mb-4">
-                <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-400 hover:text-white transition-colors flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-gray-500"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    View on GitHub
-                </a>
-            </div>
+            <div class="flex justify-center items-center space-x-4 mb-6"><a href="index.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Home</a><a href="demo.html" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Launch Demo</a></div>
+            <div class="flex justify-center items-center space-x-6 mb-4"><a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-gray-500"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg> View on GitHub</a></div>
             <hr class="border-gray-700 w-1/2 mx-auto my-6">
             <p class="text-sm text-gray-500">AetherCred by Harry Shelton | 2025</p>
         </footer>
