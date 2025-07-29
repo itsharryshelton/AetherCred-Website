@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AetherCred - Entra Security Insights & Education</title>
     <meta name="description" content="AetherCred is an open-source tool for Entra ID security insights, best practices, and remediation guides. Strengthen your Entra ID posture and learn to fix misconfigurations.">
-    <meta name="keywords" content="HTML, PowerShell, JavaScript, Entra ID, Entra, 365">
+    <meta name="keywords" content="HTML, PowerShell, JavaScript, Entra ID, Entra, 365, security, audit, open-source, tool, best practices, misconfigurations">
     <meta name="author" content="Harry Shelton">
     <link rel="icon" href="https://images.aethercred.co.uk/favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -23,7 +23,47 @@
             -webkit-text-fill-color: transparent;
         }
     </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "actionApplication",
+      "name": "AetherCred",
+      "description": "AetherCred is an open-source tool that provides insights into your Entra ID tenant, helping you learn best practices, find misconfigurations, and enforce secure identity policies.",
+      "url": "https://aethercred.co.uk/",
+      "operatingSystem": "Web-based",
+      "applicationCategory": "https://schema.org/actionApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "GBP",
+        "availability": "https://schema.org/InStock",
+        "url": "https://aethercred.co.uk/demo.html" 
+      },
+      "image": "https://images.aethercred.co.uk/AetherCredLogoCloud.png",
+      "author": {
+        "@type": "Person",
+        "name": "Harry Shelton"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "AetherCred",
+        "url": "https://aethercred.co.uk/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://images.aethercred.co.uk/AetherCredLogoCloud.png"
+        },
+        "sameAs": [
+          "https://github.com/itsharryshelton/AetherCred",
+          "https://www.linkedin.com/in/harryshelton/" 
+        ]
+      },
+      "downloadUrl": "https://github.com/itsharryshelton/AetherCred/releases", 
+      "softwareRequirements": "PowerShell 5.1 or later, Microsoft Graph PowerShell SDK, Entra ID global reader permissions (or equivalent)"
+    }
+    </script>
 </head>
+    
 <body class="bg-gray-900 text-gray-300 antialiased">
     <nav x-data="{ open: false }" class="bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
