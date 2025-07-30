@@ -3,30 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AetherCred Dashboard</title>
+    <title>AetherCred - Report</title>
     <link rel="icon" href="https://images.aethercred.co.uk/favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; }
-        .table-cell { padding: 8px 12px; border-bottom: 1px solid #374151; }
+        .table-cell { padding: 8px 12px; border-bottom: 1px solid #374151; vertical-align: top; word-break: break-word; }
         .table-header { padding: 12px; background-color: #1f2937; color: #d1d5db; font-weight: 600; }
         .risk-high { background-color: #991b1b; color: white; }
         .risk-medium { background-color: #9a3412; color: white; }
         .risk-low { background-color: #166534; color: white; }
         .risk-none { background-color: #374151; color: white; }
         .tag { display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 0.8rem; font-weight: 500; margin: 2px; }
-        .toggle-active { background-color: #1d4ed8; color: white; }
-        .toggle-inactive { background-color: #374151; color: #9ca3af; }
+        /* Simple focus state for dropdown */
+        .dropdown-menu { display: none; }
+        .dropdown:focus-within .dropdown-menu { display: block; }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="bg-gray-900 text-gray-200">
-    <nav x-data="{ open: false }" class="bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-50">
+    <nav class="bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0">
@@ -40,37 +40,11 @@
                         <a href="https://aethercred.co.uk/remediation" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Remediation Guides</a>
                         <a href="https://aethercred.co.uk/how-to-use" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">How to Use</a>
                         <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-300 hover:text-white flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                             GitHub
                         </a>
                     </div>
                 </div>
-                <div class="-mr-2 flex md:hidden">
-                    <button @click="open = !open" **@click.stop** type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" :aria-expanded="open.toString()" aria-controls="mobile-menu">
-                        <span class="sr-only">Open main menu</span>
-                        <svg x-show="!open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                        <svg x-show="open" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div x-show="open"
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-150"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95"
-             @click.away="open = false"
-             @keydown.escape.window="open = false"
-             class="md:hidden" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="https://aethercred.co.uk/" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
-                <a href="https://aethercred.co.uk/practices" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Best Practices</a>
-                <a href="https://aethercred.co.uk/msp" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">For MSPs</a>
-                <a href="https://aethercred.co.uk/remediation" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Remediation Guides</a>
-                <a href="https://aethercred.co.uk/how-to-use" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">How to Use</a>
-                <a href="https://github.com/itsharryshelton/AetherCred" target="_blank" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">GitHub</a>
             </div>
         </div>
     </nav>
@@ -94,17 +68,27 @@
             </div>
         </header>
 
-        <div class="mb-4">
-            <div class="inline-flex rounded-md shadow-sm" role="group">
-                <button type="button" id="toggle-security" class="px-4 py-2 text-sm font-medium border border-gray-600 rounded-l-lg focus:z-10 focus:ring-2 focus:ring-blue-500">
-                    Security Report
+        <!-- Dropdown Menu -->
+        <div class="mb-6 relative inline-block text-left dropdown">
+            <div>
+                <button type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-700 hover:bg-gray-700" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                    <span id="dropdown-button-text">Select a Report</span>
+                    <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                    </svg>
                 </button>
-                <button type="button" id="toggle-ca" class="px-4 py-2 text-sm font-medium border-t border-b border-gray-600 focus:z-10 focus:ring-2 focus:ring-blue-500">
-                    Conditional Access
-                </button>
-                <button type="button" id="toggle-license" class="px-4 py-2 text-sm font-medium border border-gray-600 rounded-r-lg focus:z-10 focus:ring-2 focus:ring-blue-500">
-                    License Review
-                </button>
+            </div>
+            <div class="dropdown-menu absolute left-0 z-10 mt-2 w-56 origin-top-left rounded-md bg-gray-800 shadow-lg ring-1 ring-gray-700 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                <div class="py-1" role="none">
+                    <a href="#" class="text-gray-300 block px-4 py-2 text-sm hover:bg-gray-700" role="menuitem" tabindex="-1" id="toggle-security">Security Report</a>
+                    <a href="#" class="text-gray-300 block px-4 py-2 text-sm hover:bg-gray-700" role="menuitem" tabindex="-1" id="toggle-ca">Conditional Access</a>
+                    <a href="#" class="text-gray-300 block px-4 py-2 text-sm hover:bg-gray-700" role="menuitem" tabindex="-1" id="toggle-license">License Review</a>
+                    <a href="#" class="text-gray-300 block px-4 py-2 text-sm hover:bg-gray-700" role="menuitem" tabindex="-1" id="toggle-group">Group Review</a>
+                    <a href="#" class="text-gray-300 block px-4 py-2 text-sm hover:bg-gray-700" role="menuitem" tabindex="-1" id="toggle-sp">Service Principal Review</a>
+                    <a href="#" class="text-gray-300 block px-4 py-2 text-sm hover:bg-gray-700" role="menuitem" tabindex="-1" id="toggle-guest">Guest User Review</a>
+                    <a href="#" class="text-gray-300 block px-4 py-2 text-sm hover:bg-gray-700" role="menuitem" tabindex="-1" id="toggle-mailbox">Shared Mailbox Review</a>
+                    <a href="#" class="text-gray-300 block px-4 py-2 text-sm hover:bg-gray-700" role="menuitem" tabindex="-1" id="toggle-dl">Distribution List Review</a>
+                </div>
             </div>
         </div>
         
@@ -116,15 +100,15 @@
                 <div class="bg-gray-800 p-4 rounded-lg shadow-lg"><p class="text-gray-400 text-sm">Privileged Accounts</p><p id="privileged-accounts" class="text-2xl font-bold">0</p></div>
             </div>
             <div class="bg-gray-800 rounded-lg shadow-lg overflow-x-auto">
-                <table class="min-w-full">
+                <table class="min-w-full w-full table-fixed">
                     <thead class="bg-gray-700">
                         <tr>
-                            <th class="table-header text-left">User</th>
-                            <th class="table-header text-left">Status</th>
-                            <th class="table-header text-left">MFA</th>
-                            <th class="table-header text-left">Role(s)</th>
-                            <th class="table-header text-left">Flags</th>
-                            <th class="table-header text-center">Score</th>
+                            <th class="table-header text-left w-1/4">User</th>
+                            <th class="table-header text-left w-1/12">Status</th>
+                            <th class="table-header text-left w-1/4">MFA</th>
+                            <th class="table-header text-left w-1/6">Role(s)</th>
+                            <th class="table-header text-left w-1/6">Flags</th>
+                            <th class="table-header text-center w-1/12">Score</th>
                         </tr>
                     </thead>
                     <tbody id="data-table"></tbody>
@@ -135,13 +119,13 @@
 
         <div id="ca-view" style="display: none;">
              <div class="bg-gray-800 rounded-lg shadow-lg overflow-x-auto">
-                <table class="min-w-full">
+                <table class="min-w-full w-full table-fixed">
                     <thead class="bg-gray-700">
                         <tr>
-                            <th class="table-header text-left">Policy Name</th>
-                            <th class="table-header text-left">State</th>
-                            <th class="table-header text-left">Assignments</th>
-                            <th class="table-header text-left">Grant Controls</th>
+                            <th class="table-header text-left w-1/3">Policy Name</th>
+                            <th class="table-header text-left w-1/6">State</th>
+                            <th class="table-header text-left w-1/4">Assignments</th>
+                            <th class="table-header text-left w-1/4">Grant Controls</th>
                         </tr>
                     </thead>
                     <tbody id="ca-data-table"></tbody>
@@ -152,52 +136,163 @@
 
         <div id="license-view" style="display: none;">
             <div class="bg-gray-800 rounded-lg shadow-lg overflow-x-auto">
-               <table class="min-w-full">
+               <table class="min-w-full w-full table-fixed">
                    <thead class="bg-gray-700">
                        <tr>
-                           <th class="table-header text-left">User</th>
-                           <th class="table-header text-left">Status</th>
-                           <th class="table-header text-left">License</th>
-                           <th class="table-header text-left">Assigned By</th>
-                           <th class="table-header text-center">Exchange Mailbox</th>
+                           <th class="table-header text-left w-1/3">User</th>
+                           <th class="table-header text-left w-1/12">Status</th>
+                           <th class="table-header text-left w-1/3">License</th>
+                           <th class="table-header text-left w-1/6">Assigned By</th>
+                           <th class="table-header text-center w-1/12">Exchange Mailbox</th>
                        </tr>
                    </thead>
                    <tbody id="license-data-table"></tbody>
                </table>
                <div id="license-loading" class="text-center p-8">Loading data...</div>
            </div>
-       </div>
+        </div>
+
+        <div id="group-view" style="display: none;">
+            <div class="bg-gray-800 rounded-lg shadow-lg overflow-x-auto">
+               <table class="min-w-full w-full table-fixed">
+                   <thead class="bg-gray-700">
+                       <tr>
+                           <th class="table-header text-left w-1/4">Group Name</th>
+                           <th class="table-header text-left w-1/6">Type</th>
+                           <th class="table-header text-left w-1/4">Owners</th>
+                           <th class="table-header text-left w-1/4">Members</th>
+                           <th class="table-header text-center w-1/12">Member Count</th>
+                       </tr>
+                   </thead>
+                   <tbody id="group-data-table"></tbody>
+               </table>
+               <div id="group-loading" class="text-center p-8">Loading data...</div>
+           </div>
+        </div>
+
+        <div id="sp-view" style="display: none;">
+            <div class="bg-gray-800 rounded-lg shadow-lg overflow-x-auto">
+               <table class="min-w-full w-full table-fixed">
+                   <thead class="bg-gray-700">
+                       <tr>
+                           <th class="table-header text-left w-1/3">Display Name</th>
+                           <th class="table-header text-left w-1/4">App ID</th>
+                           <th class="table-header text-left w-1/6">Type</th>
+                           <th class="table-header text-left w-1/4">Permissions</th>
+                       </tr>
+                   </thead>
+                   <tbody id="sp-data-table"></tbody>
+               </table>
+               <div id="sp-loading" class="text-center p-8">Loading data...</div>
+           </div>
+        </div>
+
+        <div id="guest-view" style="display: none;">
+            <div class="bg-gray-800 rounded-lg shadow-lg overflow-x-auto">
+               <table class="min-w-full w-full table-fixed">
+                   <thead class="bg-gray-700">
+                       <tr>
+                           <th class="table-header text-left w-1/4">Display Name</th>
+                           <th class="table-header text-left w-1/4">Email</th>
+                           <th class="table-header text-left w-1/6">MFA Status</th>
+                           <th class="table-header text-left w-1/6">Last Sign In</th>
+                           <th class="table-header text-left w-1/6">Created Date</th>
+                       </tr>
+                   </thead>
+                   <tbody id="guest-data-table"></tbody>
+               </table>
+               <div id="guest-loading" class="text-center p-8">Loading data...</div>
+           </div>
+        </div>
+
+        <div id="mailbox-view" style="display: none;">
+            <div class="bg-gray-800 rounded-lg shadow-lg overflow-x-auto">
+               <table class="min-w-full w-full table-fixed">
+                   <thead class="bg-gray-700">
+                       <tr>
+                           <th class="table-header text-left w-1/3">Display Name</th>
+                           <th class="table-header text-left w-1/3">Email</th>
+                           <th class="table-header text-left w-1/3">Created Date</th>
+                       </tr>
+                   </thead>
+                   <tbody id="mailbox-data-table"></tbody>
+               </table>
+               <div id="mailbox-loading" class="text-center p-8">Loading data...</div>
+           </div>
+        </div>
+
+        <div id="dl-view" style="display: none;">
+            <div class="bg-gray-800 rounded-lg shadow-lg overflow-x-auto">
+               <table class="min-w-full w-full table-fixed">
+                   <thead class="bg-gray-700">
+                       <tr>
+                           <th class="table-header text-left w-1/3">Display Name</th>
+                           <th class="table-header text-left w-1/3">Email</th>
+                           <th class="table-header text-left w-1/6">Created Date</th>
+                       </tr>
+                   </thead>
+                   <tbody id="dl-data-table"></tbody>
+               </table>
+               <div id="dl-loading" class="text-center p-8">Loading data...</div>
+           </div>
+        </div>
 
         <footer class="text-center text-gray-500 mt-6 text-sm">
             <p>AetherCred Reporting Tool | Developed by Harry Shelton | July 2025</p>
         </footer>
     </div>
 
-    <script src="./AetherCred-Data.js"></script>
-    <script src="./AetherCred-CA-Data.js"></script>
-    <script src="./AetherCred-License-Data.js"></script>
+    <script src="./TenantData/AetherCred-Data.js"></script>
+    <script src="./TenantData/AetherCred-CA-Data.js"></script>
+    <script src="./TenantData/AetherCred-License-Data.js"></script>
+    <script src="./TenantData/AetherCred-Group-Data.js"></script>
+    <script src="./TenantData/AetherCred-SP-Data.js"></script>
+    <script src="./TenantData/AetherCred-Guest-Data.js"></script>
+    <script src="./TenantData/AetherCred-Shared-Mailbox-Data.js"></script>
+    <script src="./TenantData/AetherCred-DL-Data.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // --- State and Element Selectors ---
+        // State and Element Selectors
         let currentView = 'security';
         
         // Views and Loaders
         const securityView = document.getElementById('security-view');
         const caView = document.getElementById('ca-view');
         const licenseView = document.getElementById('license-view');
+        const groupView = document.getElementById('group-view');
+        const spView = document.getElementById('sp-view');
+        const guestView = document.getElementById('guest-view');
+        const mailboxView = document.getElementById('mailbox-view');
+        const dlView = document.getElementById('dl-view');
         const securityLoadingDiv = document.getElementById('loading');
         const caLoadingDiv = document.getElementById('ca-loading');
         const licenseLoadingDiv = document.getElementById('license-loading');
+        const groupLoadingDiv = document.getElementById('group-loading');
+        const spLoadingDiv = document.getElementById('sp-loading');
+        const guestLoadingDiv = document.getElementById('guest-loading');
+        const mailboxLoadingDiv = document.getElementById('mailbox-loading');
+        const dlLoadingDiv = document.getElementById('dl-loading');
         
-        // Toggles
+        // Dropdown Elements
+        const dropdownButtonText = document.getElementById('dropdown-button-text');
         const toggleSecurityBtn = document.getElementById('toggle-security');
         const toggleCaBtn = document.getElementById('toggle-ca');
         const toggleLicenseBtn = document.getElementById('toggle-license');
+        const toggleGroupBtn = document.getElementById('toggle-group');
+        const toggleSpBtn = document.getElementById('toggle-sp');
+        const toggleGuestBtn = document.getElementById('toggle-guest');
+        const toggleMailboxBtn = document.getElementById('toggle-mailbox');
+        const toggleDlBtn = document.getElementById('toggle-dl');
         
         // Tables
         const securityTableBody = document.getElementById('data-table');
         const caTableBody = document.getElementById('ca-data-table');
         const licenseTableBody = document.getElementById('license-data-table');
+        const groupTableBody = document.getElementById('group-data-table');
+        const spTableBody = document.getElementById('sp-data-table');
+        const guestTableBody = document.getElementById('guest-data-table');
+        const mailboxTableBody = document.getElementById('mailbox-data-table');
+        const dlTableBody = document.getElementById('dl-data-table');
 
         // General UI
         const searchBox = document.getElementById('search-box');
@@ -205,10 +300,15 @@
         const subTitle = document.getElementById('sub-title');
         const lastUpdatedEl = document.getElementById('last-updated');
 
-        // --- Data Availability Checks ---
+        // Data Availability Checks
         const securityDataExists = typeof aetherCredData !== 'undefined' && Array.isArray(aetherCredData);
         const caDataExists = typeof aetherCredCAData !== 'undefined' && Array.isArray(aetherCredCAData) && typeof lastUpdatedCA !== 'undefined';
         const licenseDataExists = typeof aetherCredLicenseData !== 'undefined' && Array.isArray(aetherCredLicenseData) && typeof lastUpdatedLicense !== 'undefined';
+        const groupDataExists = typeof aetherCredGroupData !== 'undefined' && Array.isArray(aetherCredGroupData) && typeof lastUpdatedGroup !== 'undefined';
+        const spDataExists = typeof aetherCredSPData !== 'undefined' && Array.isArray(aetherCredSPData) && typeof lastUpdatedSP !== 'undefined';
+        const guestDataExists = typeof aetherCredGuestData !== 'undefined' && Array.isArray(aetherCredGuestData) && typeof lastUpdatedGuest !== 'undefined';
+        const mailboxDataExists = typeof aetherCredSharedMailboxData !== 'undefined' && Array.isArray(aetherCredSharedMailboxData) && typeof lastUpdatedSharedMailbox !== 'undefined';
+        const dlDataExists = typeof aetherCredDLData !== 'undefined' && Array.isArray(aetherCredDLData) && typeof lastUpdatedDL !== 'undefined';
         
         if (!securityDataExists) {
             securityLoadingDiv.innerText = "Error: AetherCred-Data.js not found or empty.";
@@ -222,17 +322,38 @@
             licenseLoadingDiv.innerText = "Error: AetherCred-License-Data.js not found or empty.";
             licenseLoadingDiv.classList.add('text-red-500');
         }
+        if (!groupDataExists) {
+            groupLoadingDiv.innerText = "Error: AetherCred-Group-Data.js not found or empty.";
+            groupLoadingDiv.classList.add('text-red-500');
+        }
+         if (!spDataExists) {
+            spLoadingDiv.innerText = "Error: AetherCred-SP-Data.js not found or empty.";
+            spLoadingDiv.classList.add('text-red-500');
+        }
+        if (!guestDataExists) {
+            guestLoadingDiv.innerText = "Error: AetherCred-Guest-Data.js not found or empty.";
+            guestLoadingDiv.classList.add('text-red-500');
+        }
+        if (!mailboxDataExists) {
+            mailboxLoadingDiv.innerText = "Error: AetherCred-Shared-Mailbox-Data.js not found or empty.";
+            mailboxLoadingDiv.classList.add('text-red-500');
+        }
+        if (!dlDataExists) {
+            dlLoadingDiv.innerText = "Error: AetherCred-DL-Data.js not found or empty.";
+            dlLoadingDiv.classList.add('text-red-500');
+        }
 
-        // --- Helper Functions ---
+        // Helper Functions
         const getScoreColor = (score) => {
             if (score >= 80) return 'risk-low';
             if (score >= 50) return 'risk-medium';
             return 'risk-high';
         };
         const getMfaStatusColor = (status) => {
-            if (status === 'Modern MFA') return 'bg-green-600';
+            if (status === 'Modern MFA' || status === 'Registered') return 'bg-green-600';
             if (status === 'Legacy MFA') return 'bg-yellow-600';
-            return 'bg-red-600';
+            if (status === 'Not Enabled' || status === 'Not Registered') return 'bg-red-600';
+            return 'bg-gray-600';
         };
         const getCaStateColor = (state) => {
             if (state === 'enabled') return 'bg-green-700';
@@ -244,8 +365,16 @@
             if (state === 'enabledForReportingButNotEnforced') return 'Report-Only';
             return 'Disabled';
         };
+        const formatDate = (dateString) => {
+            if (!dateString || dateString === 'N/A' || dateString === 'Never') return dateString;
+            try {
+                return new Date(dateString).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+            } catch (e) {
+                return dateString;
+            }
+        };
 
-        // --- Table Rendering Functions ---
+        // Table Rendering Functions
         const renderSecurityTable = (data) => {
             securityTableBody.innerHTML = '';
             if (!securityDataExists || data.length === 0) {
@@ -305,6 +434,105 @@
                 licenseTableBody.innerHTML += row;
             });
         };
+        
+        const renderGroupTable = (data) => {
+            groupTableBody.innerHTML = '';
+            if (!groupDataExists || data.length === 0) {
+                groupLoadingDiv.innerText = "No group data found.";
+                groupLoadingDiv.style.display = 'block';
+                return;
+            }
+            groupLoadingDiv.style.display = 'none';
+            data.forEach(group => {
+                const ownersHtml = Array.isArray(group.GroupOwners) ? group.GroupOwners.join('<br>') : (group.GroupOwners || 'N/A');
+                const membersHtml = Array.isArray(group.GroupMembers) ? group.GroupMembers.join('<br>') : (group.GroupMembers || 'N/A');
+
+                const row = `<tr>
+                    <td class="table-cell"><div class="font-semibold">${group.GroupName||'N/A'}</div><div class="text-sm text-gray-400">${group.EmailAddress||'No Email'}</div></td>
+                    <td class="table-cell text-sm">${group.GroupType||'N/A'}</td>
+                    <td class="table-cell text-xs">${ownersHtml}</td>
+                    <td class="table-cell text-xs">${membersHtml}</td>
+                    <td class="table-cell text-center font-bold">${group.MemberCount}</td>
+                </tr>`;
+                groupTableBody.innerHTML += row;
+            });
+        };
+
+        const renderSpTable = (data) => {
+            spTableBody.innerHTML = '';
+            if (!spDataExists || data.length === 0) {
+                spLoadingDiv.innerText = "No service principal data found.";
+                spLoadingDiv.style.display = 'block';
+                return;
+            }
+            spLoadingDiv.style.display = 'none';
+            data.forEach(sp => {
+                const permissions = [].concat(sp.OAuth2Permissions || [], sp.AppRoleAssignments || []).join('<br>') || 'None';
+                const row = `<tr>
+                    <td class="table-cell font-semibold">${sp.DisplayName||'N/A'}</td>
+                    <td class="table-cell text-sm text-gray-400">${sp.AppId||'N/A'}</td>
+                    <td class="table-cell text-sm">${sp.ServicePrincipalType||'Application'}</td>
+                    <td class="table-cell text-xs">${permissions}</td>
+                </tr>`;
+                spTableBody.innerHTML += row;
+            });
+        };
+
+        const renderGuestTable = (data) => {
+            guestTableBody.innerHTML = '';
+            if (!guestDataExists || data.length === 0) {
+                guestLoadingDiv.innerText = "No guest user data found.";
+                guestLoadingDiv.style.display = 'block';
+                return;
+            }
+            guestLoadingDiv.style.display = 'none';
+            data.forEach(guest => {
+                const row = `<tr>
+                    <td class="table-cell font-semibold">${guest.DisplayName||'N/A'}</td>
+                    <td class="table-cell text-sm text-gray-400">${guest.Email||'N/A'}</td>
+                    <td class="table-cell"><span class="tag ${getMfaStatusColor(guest.MFAStatus)}">${guest.MFAStatus}</span></td>
+                    <td class="table-cell text-sm">${formatDate(guest.LastSignInDate)}</td>
+                    <td class="table-cell text-sm">${formatDate(guest.CreatedDate)}</td>
+                </tr>`;
+                guestTableBody.innerHTML += row;
+            });
+        };
+
+        const renderMailboxTable = (data) => {
+            mailboxTableBody.innerHTML = '';
+            if (!mailboxDataExists || data.length === 0) {
+                mailboxLoadingDiv.innerText = "No shared mailbox data found.";
+                mailboxLoadingDiv.style.display = 'block';
+                return;
+            }
+            mailboxLoadingDiv.style.display = 'none';
+            data.forEach(mb => {
+                const row = `<tr>
+                    <td class="table-cell font-semibold">${mb.DisplayName||'N/A'}</td>
+                    <td class="table-cell text-sm text-gray-400">${mb.Email||'N/A'}</td>
+                    <td class="table-cell text-sm">${formatDate(mb.CreatedDate)}</td>
+                </tr>`;
+                mailboxTableBody.innerHTML += row;
+            });
+        };
+
+        const renderDlTable = (data) => {
+            dlTableBody.innerHTML = '';
+            if (!dlDataExists || data.length === 0) {
+                dlLoadingDiv.innerText = "No distribution list data found.";
+                dlLoadingDiv.style.display = 'block';
+                return;
+            }
+            dlLoadingDiv.style.display = 'none';
+            data.forEach(dl => {
+                const row = `<tr>
+                    <td class="table-cell font-semibold">${dl.DisplayName||'N/A'}</td>
+                    <td class="table-cell text-sm text-gray-400">${dl.Email||'N/A'}</td>
+                    <td class="table-cell text-sm">${formatDate(dl.CreatedDate)}</td>
+                </tr>`;
+                dlTableBody.innerHTML += row;
+            });
+        };
 
         const updateSummary = (data) => {
             if (!securityDataExists) return;
@@ -314,17 +542,17 @@
             document.getElementById('privileged-accounts').innerText = data.filter(u => u.Role !== 'None').length;
         };
 
-        const switchView = (view) => {
+        const switchView = (view, buttonText) => {
             currentView = view;
             searchBox.value = '';
+            dropdownButtonText.textContent = buttonText;
 
-            const allViews = { security: securityView, ca: caView, license: licenseView };
-            const allToggles = { security: toggleSecurityBtn, ca: toggleCaBtn, license: toggleLicenseBtn };
+            const allViews = { security: securityView, ca: caView, license: licenseView, group: groupView, sp: spView, guest: guestView, mailbox: mailboxView, dl: dlView };
             
             for (const key in allViews) {
-                allViews[key].style.display = key === view ? 'block' : 'none';
-                allToggles[key].classList.toggle('toggle-active', key === view);
-                allToggles[key].classList.toggle('toggle-inactive', key !== view);
+                if (allViews[key]) {
+                    allViews[key].style.display = key === view ? 'block' : 'none';
+                }
             }
 
             if (view === 'security') {
@@ -352,6 +580,51 @@
                 if (licenseDataExists) {
                     renderLicenseTable(aetherCredLicenseData);
                 }
+            } else if (view === 'group') {
+                mainTitle.innerText = "AetherCred - Group Review";
+                subTitle.innerText = "Tenant-Wide Group, Owner & Member Report";
+                lastUpdatedEl.innerText = groupDataExists ? `Last updated: ${new Date(lastUpdatedGroup).toLocaleString('en-GB')}` : 'Data not loaded.';
+                searchBox.placeholder = "Search by name, type, owner, or member...";
+                if (groupDataExists) {
+                    renderGroupTable(aetherCredGroupData);
+                }
+            } else if (view === 'sp') {
+                mainTitle.innerText = "AetherCred - Service Principal Review";
+                subTitle.innerText = "Application and Service Principal Analysis";
+                lastUpdatedEl.innerText = spDataExists ? `Last updated: ${new Date(lastUpdatedSP).toLocaleString('en-GB')}` : 'Data not loaded.';
+                searchBox.placeholder = "Search by display name or App ID...";
+                if (spDataExists) {
+                    renderSpTable(aetherCredSPData);
+                }
+            } else if (view === 'guest') {
+                mainTitle.innerText = "AetherCred - Guest User Review";
+                subTitle.innerText = "Guest User Security and Activity Analysis";
+                lastUpdatedEl.innerText = guestDataExists ? `Last updated: ${new Date(lastUpdatedGuest).toLocaleString('en-GB')}` : 'Data not loaded.';
+                searchBox.placeholder = "Search by display name or email...";
+                if (guestDataExists) {
+                    renderGuestTable(aetherCredGuestData);
+                }
+            } else if (view === 'mailbox') {
+                mainTitle.innerText = "AetherCred - Shared Mailbox Review";
+                subTitle.innerText = "Shared Mailbox Analysis";
+                lastUpdatedEl.innerText = mailboxDataExists ? `Last updated: ${new Date(lastUpdatedSharedMailbox).toLocaleString('en-GB')}` : 'Data not loaded.';
+                searchBox.placeholder = "Search by display name or email...";
+                if (mailboxDataExists) {
+                    renderMailboxTable(aetherCredSharedMailboxData);
+                }
+            } else if (view === 'dl') {
+                mainTitle.innerText = "AetherCred - Distribution List Review";
+                subTitle.innerText = "Distribution List Analysis";
+                lastUpdatedEl.innerText = dlDataExists ? `Last updated: ${new Date(lastUpdatedDL).toLocaleString('en-GB')}` : 'Data not loaded.';
+                searchBox.placeholder = "Search by display name or email...";
+                if (dlDataExists) {
+                    renderDlTable(aetherCredDLData);
+                }
+            }
+            
+            // Close the dropdown by removing focus
+            if (document.activeElement) {
+                document.activeElement.blur();
             }
         };
 
@@ -366,64 +639,149 @@
             } else if (currentView === 'license' && licenseDataExists) {
                 const filtered = aetherCredLicenseData.filter(u => (u.DisplayName&&u.DisplayName.toLowerCase().includes(searchTerm)) || (u.UPN&&u.UPN.toLowerCase().includes(searchTerm)) || (u.License&&u.License.toLowerCase().includes(searchTerm)));
                 renderLicenseTable(filtered);
+            } else if (currentView === 'group' && groupDataExists) {
+                const filtered = aetherCredGroupData.filter(g => {
+                    const nameMatch = g.GroupName && g.GroupName.toLowerCase().includes(searchTerm);
+                    const typeMatch = g.GroupType && g.GroupType.toLowerCase().includes(searchTerm);
+                    const ownerMatch = Array.isArray(g.GroupOwners) && g.GroupOwners.some(owner => owner.toLowerCase().includes(searchTerm));
+                    const memberMatch = Array.isArray(g.GroupMembers) && g.GroupMembers.some(member => member.toLowerCase().includes(searchTerm));
+                    return nameMatch || typeMatch || ownerMatch || memberMatch;
+                });
+                renderGroupTable(filtered);
+            } else if (currentView === 'sp' && spDataExists) {
+                const filtered = aetherCredSPData.filter(sp => (sp.DisplayName&&sp.DisplayName.toLowerCase().includes(searchTerm)) || (sp.AppId&&sp.AppId.toLowerCase().includes(searchTerm)));
+                renderSpTable(filtered);
+            } else if (currentView === 'guest' && guestDataExists) {
+                const filtered = aetherCredGuestData.filter(g => (g.DisplayName&&g.DisplayName.toLowerCase().includes(searchTerm)) || (g.Email&&g.Email.toLowerCase().includes(searchTerm)));
+                renderGuestTable(filtered);
+            } else if (currentView === 'mailbox' && mailboxDataExists) {
+                const filtered = aetherCredMailboxData.filter(mb => (mb.DisplayName&&mb.DisplayName.toLowerCase().includes(searchTerm)) || (mb.Email&&mb.Email.toLowerCase().includes(searchTerm)));
+                renderMailboxTable(filtered);
+            } else if (currentView === 'dl' && dlDataExists) {
+                const filtered = aetherCredDLData.filter(dl => (dl.DisplayName&&dl.DisplayName.toLowerCase().includes(searchTerm)) || (dl.Email&&dl.Email.toLowerCase().includes(searchTerm)));
+                renderDlTable(filtered);
             }
         });
         
-        toggleSecurityBtn.addEventListener('click', () => switchView('security'));
-        toggleCaBtn.addEventListener('click', () => switchView('ca'));
-        toggleLicenseBtn.addEventListener('click', () => switchView('license'));
+        toggleSecurityBtn.addEventListener('click', (e) => { e.preventDefault(); switchView('security', 'Security Report'); });
+        toggleCaBtn.addEventListener('click', (e) => { e.preventDefault(); switchView('ca', 'Conditional Access'); });
+        toggleLicenseBtn.addEventListener('click', (e) => { e.preventDefault(); switchView('license', 'License Review'); });
+        toggleGroupBtn.addEventListener('click', (e) => { e.preventDefault(); switchView('group', 'Group Review'); });
+        toggleSpBtn.addEventListener('click', (e) => { e.preventDefault(); switchView('sp', 'Service Principal Review'); });
+        toggleGuestBtn.addEventListener('click', (e) => { e.preventDefault(); switchView('guest', 'Guest User Review'); });
+        toggleMailboxBtn.addEventListener('click', (e) => { e.preventDefault(); switchView('mailbox', 'Shared Mailbox Review'); });
+        toggleDlBtn.addEventListener('click', (e) => { e.preventDefault(); switchView('dl', 'Distribution List Review'); });
 
         document.getElementById('pdf-button').addEventListener('click', () => {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-            const logoImg = document.getElementById('logo-for-pdf');
             let reportTitle, tableHead, tableBody, columnStyles;
 
-            if (logoImg && logoImg.src) {
-                try { doc.addImage(logoImg, 'PNG', 15, 10, 20, 20); } catch (e) { console.error("Could not add logo to PDF.", e); }
-            }
+            const logoImg = document.getElementById('logo-for-pdf');
+            
+            // Report titles and generation date
+            doc.setFontSize(18);
+            doc.setTextColor(40);
+            doc.text(`AetherCred Report`, 282, 15, { align: 'right' });
+
             doc.setFontSize(10);
             doc.setTextColor(100);
-            doc.text(`Report generated on: ${new Date().toLocaleString('en-GB')}`, 38, 26);
+            doc.text(`Generated on: ${new Date().toLocaleString('en-GB')}`, 282, 22, { align: 'right' });
             
             if (currentView === 'security' && securityDataExists) {
-                reportTitle = "AetherCred Security Report";
+                reportTitle = "User Security Report";
                 tableHead = [['User', 'Status', 'MFA Status', 'MFA Methods', 'Role(s)', 'Flags', 'Score']];
                 tableBody = aetherCredData.map(u => [`${u.Name}\n${u.UPN}`, u.Enabled ? 'Enabled' : 'Disabled', u.MFAStatus, u.MFAMethods, u.Role, u.Flags, u.Score]);
                 columnStyles = { 5: { cellWidth: 45 }, 6: { halign: 'center' } };
             } else if (currentView === 'ca' && caDataExists) {
-                reportTitle = "AetherCred Conditional Access Report";
+                reportTitle = "Conditional Access Report";
                 tableHead = [['Policy Name', 'State', 'Assignments', 'Grant Controls']];
                 tableBody = aetherCredCAData.map(p => [p.PolicyName, formatCaState(p.State), p.UsersAndGroups, p.GrantControls]);
                 columnStyles = { 0: { cellWidth: 60 }, 2: { cellWidth: 60 }, 3: { cellWidth: 60 }};
             } else if (currentView === 'license' && licenseDataExists) {
-                reportTitle = "AetherCred License Report";
-                tableHead = [['User', 'Status', 'License', 'Assigned By', 'Mailbox',"EMS P1","EMS P2"]];
+                reportTitle = "User License Report";
+                tableHead = [['User', 'Status', 'License', 'Assigned By', 'Mailbox']];
                 tableBody = aetherCredLicenseData.map(u => [`${u.DisplayName}\n${u.UPN}`, u.AccountEnabled ? 'Enabled' : 'Disabled', u.License, u.AssignedBy, u.ExchangeMailbox]);
                 columnStyles = { 0: { cellWidth: 60 }, 4: { halign: 'center' } };
+            } else if (currentView === 'group' && groupDataExists) {
+                reportTitle = "Group Report";
+                tableHead = [['Group Name', 'Type', 'Owners', 'Members', 'Count']];
+                tableBody = aetherCredGroupData.map(g => [
+                    `${g.GroupName}\n${g.EmailAddress || ''}`, 
+                    g.GroupType, 
+                    Array.isArray(g.GroupOwners) ? g.GroupOwners.join('\n') : (g.GroupOwners || ''),
+                    Array.isArray(g.GroupMembers) ? g.GroupMembers.join('\n') : (g.GroupMembers || ''),
+                    g.MemberCount
+                ]);
+                columnStyles = { 0: { cellWidth: 50 }, 2: { cellWidth: 60 }, 3: { cellWidth: 60 }, 4: { halign: 'center' } };
+            } else if (currentView === 'sp' && spDataExists) {
+                reportTitle = "Service Principal Report";
+                tableHead = [['Display Name', 'App ID', 'Type', 'Permissions']];
+                tableBody = aetherCredSPData.map(sp => [
+                    sp.DisplayName || 'N/A',
+                    sp.AppId || 'N/A',
+                    sp.ServicePrincipalType || 'Application',
+                    [].concat(sp.OAuth2Permissions || [], sp.AppRoleAssignments || []).join('\n') || 'None'
+                ]);
+                columnStyles = { 0: { cellWidth: 50 }, 1: { cellWidth: 60 }, 3: { cellWidth: 60 } };
+            } else if (currentView === 'guest' && guestDataExists) {
+                reportTitle = "Guest User Report";
+                tableHead = [['Display Name', 'Email', 'MFA Status', 'Last Sign In', 'Created Date']];
+                tableBody = aetherCredGuestData.map(g => [
+                    g.DisplayName || 'N/A',
+                    g.Email || 'N/A',
+                    g.MFAStatus,
+                    formatDate(g.LastSignInDate),
+                    formatDate(g.CreatedDate)
+                ]);
+                columnStyles = { 0: { cellWidth: 50 }, 1: { cellWidth: 60 } };
+            } else if (currentView === 'mailbox' && mailboxDataExists) {
+                reportTitle = "Shared Mailbox Report";
+                tableHead = [['Display Name', 'Email', 'Created Date']];
+                tableBody = aetherCredSharedMailboxData.map(mb => [
+                    mb.DisplayName || 'N/A',
+                    mb.Email || 'N/A',
+                    formatDate(mb.CreatedDate)
+                ]);
+                columnStyles = { 0: { cellWidth: 70 }, 1: { cellWidth: 70 } };
+            } else if (currentView === 'dl' && dlDataExists) {
+                reportTitle = "Distribution List Report";
+                tableHead = [['Display Name', 'Email', 'Created Date']];
+                tableBody = aetherCredDLData.map(dl => [
+                    dl.DisplayName || 'N/A',
+                    dl.Email || 'N/A',
+                    formatDate(dl.CreatedDate),
+                    dl.AllowExternalSenders
+                ]);
+                columnStyles = { 0: { cellWidth: 60 }, 1: { cellWidth: 60 } };
             } else {
-                alert("No data available to generate a PDF for this view.");
+                // Use a non-blocking message box instead of alert()
+                const noDataMessage = document.createElement('div');
+                noDataMessage.textContent = "No data available to generate a PDF for this view.";
+                noDataMessage.style.cssText = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background-color:#991b1b; color:white; padding:10px 20px; border-radius:8px; z-index:100;";
+                document.body.appendChild(noDataMessage);
+                setTimeout(() => noDataMessage.remove(), 3000);
                 return;
             }
 
-            doc.setFontSize(22);
-            doc.setTextColor(40);
-            doc.text(reportTitle, 38, 20);
+            // Add the specific report title below the main header
+            doc.setFontSize(14);
+            doc.text(reportTitle, 145, 32, { align: 'center' });
             
             doc.autoTable({
                 head: tableHead,
                 body: tableBody,
-                startY: 35,
+                startY: 40,
                 theme: 'grid',
                 headStyles: { fillColor: [31, 41, 55] },
-                styles: { fontSize: 8, cellPadding: 1.5 },
+                styles: { fontSize: 8, cellPadding: 1.5, overflow: 'linebreak' },
                 columnStyles: columnStyles,
                 didDrawCell: (data) => {
                     if (currentView === 'security' && data.column.index === 6 && data.cell.section === 'body') {
                         const score = Number(data.cell.raw);
-                        let color = [22, 101, 52];
-                        if (score < 50) color = [153, 27, 27];
-                        else if (score < 80) color = [154, 52, 18];
+                        let color = [22, 101, 52]; 
+                        if (score < 50) color = [153, 27, 27]; 
+                        else if (score < 80) color = [154, 52, 18]; 
                         doc.setFillColor(...color);
                     }
                 }
@@ -439,8 +797,8 @@
             doc.save(`AetherCred-${currentView.toUpperCase()}-Report-${new Date().toISOString().slice(0,10)}.pdf`);
         });
 
-        // --- Initial Load ---
-        switchView('security');
+        // Initial Load
+        switchView('security', 'Security Report');
     });
     </script>
 </body>
